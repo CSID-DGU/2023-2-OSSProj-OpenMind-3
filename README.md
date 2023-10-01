@@ -1,1 +1,1 @@
-# OSSProj-OpenMind 
+# OSSProj-OpenMind
