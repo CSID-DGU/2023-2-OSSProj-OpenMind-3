@@ -1,55 +1,60 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import '../../bootstrap.css';
-import '../../bootstrap2.css';
+
+import '../bootstrap.css';
 
 const MainPage = () => {
   return (
     <>
-      <nav className='navbar navbar-expand navbar-light bg-white topbar static-top shadow'>
+      <nav
+        className='navbar navbar-expand navbar-light bg-white topbar static-top shadow'
+        style={{ height: '100px' }}
+      >
         {/*<!-- Sidebar Toggle (Topbar) -->*/}
 
         {/*<!-- Topbar Search -->*/}
         {/* <form className='d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search zindex'> */}
-        <form className='d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search zindex'>
+        <form className='d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search'>
           <div className='input-group'>
-            <h1 className='h4 mb-0 text-gray-800'>
-              {/* <button className='btn btn-link d-md-none rounded-circle mr-3'>
+            <div className='sidebar-brand d-flex align-items-center justify-content-center'>
+              <a href='/'>
+                <img
+                  width={160}
+                  height={28}
+                  src={
+                    'https://eclass.dongguk.edu/lmsdata/img/template1/logo.png'
+                  }
+                  alt='logo'
+                />
+              </a>
+              <div className='h6 text-gray-800'>
+                {/* <button className='btn btn-link d-md-none rounded-circle mr-3'>
                 <FontAwesomeIcon icon={faBars} />
               </button> */}
-              <a
-                className='sidebar-brand d-flex align-items-center justify-content-center'
-                href='/'
-              >
-                <img className='' src='' />
-              </a>
-              오픈소스소프트웨어프로젝트
-            </h1>
+                오픈소스소프트웨어프로젝트
+              </div>
+            </div>
           </div>
         </form>
 
         {/*<!-- Topbar Navbar -->*/}
-        <ul className='navbar-nav ml-auto'>
+        <div className='sidebar-brand d-flex align-items-center justify-content-center'>
           {/*<!-- Nav Item - Alerts -->*/}
           {/* <InvitationNav /> */}
           {/*<!-- Nav Item - User Information -->*/}
-          <li className='nav-item dropdown no-arrow'>
-            <a className='nav-link dropdown-toggle'>
-              <span className='mr-2 d-none d-lg-inline text-gray-600 small'>
-                {/* {userInfo ? `${userInfo.name} (${userInfo.studentId})` : ''} */}
-              </span>
-              {/*<!-- <span style="padding-right: 5px"> -->*/}
-              <div className='btn btn-primary btn-user'>My Page</div>
-              <div
-                className='btn btn-primary btn-user'
-                style={{ marginLeft: '5px' }}
-              >
-                Logout
-              </div>
-            </a>
-          </li>
-        </ul>
+
+          <span className='mr-2 d-none d-lg-inline text-gray-600 small user-info'>
+            2023111111 홍길동
+            {/* {userInfo ? `${userInfo.name} (${userInfo.studentId})` : ''} */}
+          </span>
+
+          <a className='nav-link' href='/schedule'>
+            <div className='nav-item text-gray-600 small mr-4'>
+              <span className='mr-2 ml-2'> | </span> Logout
+            </div>
+          </a>
+        </div>
       </nav>
       <div id='wrapper'>
         {/*<!-- Sidebar -->*/}
@@ -62,7 +67,7 @@ const MainPage = () => {
           {/*<!-- Nav Item - 메인 페이지 -->*/}
           <li className='nav-item active'>
             <li className='nav-item dropdown no-arrow mx-1'>
-              <a className='nav-link collapsed dropdown-button'>
+              <a className='nav-link collapsed dropdown-button' href='/'>
                 <i className='fas fa-fw fa-tachometer-alt'></i>
                 <div style={{ textAlign: 'center' }}>
                   <span>메인 페이지</span>
