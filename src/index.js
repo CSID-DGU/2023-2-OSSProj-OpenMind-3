@@ -5,12 +5,12 @@ import MainPage from './pages/MainPage';
 import SchedulePage from './pages/SchedulePage';
 import DocumentPage from './pages/DocumentPage';
 import SelectPage from './pages/SelectPage';
-import LoginPage from './pages/LoginPage';
+import LandingPage from './pages/LandingPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainPage />,
+    element: <LandingPage />,
   },
   {
     path: '/schedule',
@@ -19,10 +19,6 @@ const router = createBrowserRouter([
   {
     path: '/document',
     element: <DocumentPage />,
-  },
-  {
-    path: '/login',
-    element: <LoginPage />,
   },
   {
     path: '/select',
