@@ -28,6 +28,9 @@ dependencies {
 	//swagger
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
+	//redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 	compileOnly 'org.projectlombok:lombok'
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
