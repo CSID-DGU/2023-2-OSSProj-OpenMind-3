@@ -1,15 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import MainPage from './pages/MainPage';
+import TeamSpace from './pages/Teamspace';
 import SchedulePage from './pages/SchedulePage';
 import DocumentPage from './pages/DocumentPage';
 import LandingPage from './pages/LandingPage';
+import MainPage from './pages/MainPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <LandingPage />,
+  },
+  {
+    path: '/teamspace',
+    element: <TeamSpace />,
   },
   {
     path: '/main',

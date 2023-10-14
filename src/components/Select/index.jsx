@@ -7,25 +7,39 @@ export const Select = () => {
       <s.SelectContainer>
         <s.SelectList>
           <s.SelectItem>
-            <s.LinkItem to={'/main'}>오픈소스소프트웨어프로젝트</s.LinkItem>
+            <s.LinkItem to={'/teamspace'}>
+              오픈소스소프트웨어프로젝트
+            </s.LinkItem>
           </s.SelectItem>
           <s.SelectItem>
-            <s.LinkItem to={'/main'}>오픈소스소프트웨어프로젝트</s.LinkItem>
+            <s.LinkItem to={'/teamspace'}>
+              오픈소스소프트웨어프로젝트
+            </s.LinkItem>
           </s.SelectItem>
           <s.SelectItem>
-            <s.LinkItem to={'/main'}>오픈소스소프트웨어프로젝트</s.LinkItem>
+            <s.LinkItem to={'/teamspace'}>
+              오픈소스소프트웨어프로젝트
+            </s.LinkItem>
           </s.SelectItem>
           <s.SelectItem>
-            <s.LinkItem to={'/main'}>오픈소스소프트웨어프로젝트</s.LinkItem>
+            <s.LinkItem to={'/teamspace'}>
+              오픈소스소프트웨어프로젝트
+            </s.LinkItem>
           </s.SelectItem>
           <s.SelectItem>
-            <s.LinkItem to={'/main'}>오픈소스소프트웨어프로젝트</s.LinkItem>
+            <s.LinkItem to={'/teamspace'}>
+              오픈소스소프트웨어프로젝트
+            </s.LinkItem>
           </s.SelectItem>
           <s.SelectItem>
-            <s.LinkItem to={'/main'}>오픈소스소프트웨어프로젝트</s.LinkItem>
+            <s.LinkItem to={'/teamspace'}>
+              오픈소스소프트웨어프로젝트
+            </s.LinkItem>
           </s.SelectItem>
           <s.SelectItem>
-            <s.LinkItem to={'/main'}>오픈소스소프트웨어프로젝트</s.LinkItem>
+            <s.LinkItem to={'/teamspace'}>
+              오픈소스소프트웨어프로젝트
+            </s.LinkItem>
           </s.SelectItem>
         </s.SelectList>
       </s.SelectContainer>
