@@ -1,46 +1,41 @@
-import { useState } from 'react';
-import * as s from './Select.style.js';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-export const Select = () => {
-  const [isClickedLogin, setIsClickedLogin] = useState(false);
+export const Text = styled.p`
+  width: 100%;
+  height: 25px;
+  margin: 5px 0 10px 0;
+`;
 
-  const isClickButton = () => {
-    setIsClickedLogin((prev) => !prev);
-  };
+export const SelectContainer = styled.div`
+  width: 100%;
+  height: 70%;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 5px;
+`;
 
-  return (
-    <s.Wrapper>
-      <s.HeaderContainer>
-        <s.Logo
-          src={'https://eclass.dongguk.edu/lmsdata/img/template1/logo.png'}
-        />
-      </s.HeaderContainer>
-      <s.ContentContainer>
-        <form type='submit' method='post' action='' id='login-form'>
-          <s.InputLabel>학번</s.InputLabel>
-          <s.Input
-            type='text'
-            id='email'
-            name='email'
-            className='input-id'
-            // onKeyDown={}
-            // value={}
-            // onChange={}
-          />
-          <s.InputLabel>비밀번호</s.InputLabel>
-          <s.Input
-            type='password'
-            id='password'
-            name='password'
-            className='input-pw'
-            // autoComplete={}
-            // onKeyDown={}
-            // value={}
-            // onChange={}
-          />
-        </form>
-        <s.Button onClick={isClickButton}>로그인</s.Button>
-      </s.ContentContainer>
-    </s.Wrapper>
-  );
-};
+export const LinkItem = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+  &:hover {
+    color: gray;
+    filter: brightness(70%);
+    text-decoration: none;
+  }
+`;
+export const SelectList = styled.ul`
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow: auto;
+  width: 80%;
+  height: 100%;
+  padding: 0;
+`;
+export const SelectItem = styled.li`
+  width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  list-style: none;
+  line-height: 30px;
+`;

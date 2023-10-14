@@ -1,54 +1,36 @@
 import React, { useState } from 'react';
-import * as s from '../style/LandingPage.style';
-import Modal from 'react-modal';
-import BackgroundImage from '../assets/image/background.png';
+import * as s from '../style/LandingPage.style.js';
 import { Login } from '../components/Login/index';
+import { Select } from '../components/Select/index';
 
 const LandingPage = () => {
   const [isClickedLogin, setIsClickedLogin] = useState(true);
+  const [isLoginOk, setIsLoginOK] = useState(false);
 
-  // const isClickLogin = () => {
-  //   setIsClickedLogin((prev) => !prev);
-  // };
-
-  const LoginModalStyle = {
-    overlay: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      zIndex: 10,
-      background: 'transparent',
-    },
-    content: {
-      display: 'flex',
-      justifyContent: 'center',
-      background: 'white',
-      opacity: '0.85',
-      overflow: 'auto',
-      width: '380px',
-      height: '430px',
-      margin: 'auto auto',
-      WebkitOverflowScrolling: 'touch',
-      borderRadius: '5px',
-      outline: 'none',
-      zIndex: 10,
-    },
-  };
   return (
-    <>
-      <s.Wrapper>
-        <s.Background src={BackgroundImage}></s.Background>
-      </s.Wrapper>
-      <Modal
-        isOpen={isClickedLogin}
-        style={LoginModalStyle}
-        ariaHideApp={false}
-      >
-        <Login />
-      </Modal>
-    </>
+    <s.Wrapper>
+      <s.Background>
+        <s.Modal>
+          <s.ModalWrapper>
+            <s.HeaderContainer>
+              <s.Logo
+                src={
+                  'https://eclass.dongguk.edu/lmsdata/img/template1/logo.png'
+                }
+              />
+            </s.HeaderContainer>
+            <s.ContentContainer>
+              {!isLoginOk ? (
+                <Login setIsLoginOk={setIsLoginOK}></Login>
+              ) : (
+                <Select />
+              )}
+            </s.ContentContainer>
+          </s.ModalWrapper>
+          .
+        </s.Modal>
+      </s.Background>
+    </s.Wrapper>
   );
 };
 
