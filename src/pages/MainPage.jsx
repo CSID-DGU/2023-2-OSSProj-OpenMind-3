@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MainPage = () => {
-  return <div>이곳은 강의실 선택 페이지입니다.</div>;
+  return <div>이곳은 팀 스페이스의 [홈] 탭입니다.</div>;
 };
 
 export default MainPage;

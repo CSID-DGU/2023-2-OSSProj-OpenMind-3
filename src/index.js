@@ -15,18 +15,20 @@ const router = createBrowserRouter([
   {
     path: '/teamspace',
     element: <TeamSpace />,
-  },
-  {
-    path: '/main',
-    element: <MainPage />,
-  },
-  {
-    path: '/schedule',
-    element: <SchedulePage />,
-  },
-  {
-    path: '/document',
-    element: <DocumentPage />,
+    children: [
+      {
+        path: '/teamspace/main',
+        element: <MainPage />,
+      },
+      {
+        path: '/teamspace/schedule',
+        element: <SchedulePage />,
+      },
+      {
+        path: '/teamspace/document',
+        element: <DocumentPage />,
+      },
+    ],
   },
 ]);
 const root = ReactDOM.createRoot(document.getElementById('root'));
