@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -12,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ossprac.openmind.global.config.jwt.JwtAuthenticationEntryPoint;
 import com.ossprac.openmind.global.config.jwt.JwtAuthenticationFilter;
 import com.ossprac.openmind.global.config.jwt.JwtTokenProvider;
+import com.ossprac.openmind.global.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,8 +24,13 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
 	private final JwtTokenProvider jwtTokenProvider;
-	private final ObjectMapper objectMapper;
+	private final SecurityUtils securityUtils;
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -37,7 +45,7 @@ public class SecurityConfig {
 			.antMatchers("/user/login").permitAll()
 			.anyRequest().authenticated()
 			.and()
-			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, objectMapper), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, securityUtils), UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(jwtAuthenticationEntryPoint, JwtAuthenticationFilter.class);
 		return http.build();
 	}

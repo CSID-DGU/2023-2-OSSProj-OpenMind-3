@@ -1,8 +1,10 @@
 package com.ossprac.openmind.global.config.jwt;
 
 import java.security.Key;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -21,6 +23,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
@@ -53,6 +56,30 @@ public class JwtTokenProvider implements InitializingBean {
 		} catch (IllegalArgumentException e) {
 			throw new BaseException(ErrorCode.INVALID_TOKEN);
 		}
+	}
+
+	public String createToken(String id) {
+
+		long now = (new Date()).getTime();
+		Date validity = new Date(now + this.tokenValidityInMilliseconds);
+
+		return Jwts.builder()
+			.setSubject(id)
+			.setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
+			.signWith(key, SignatureAlgorithm.HS512)
+			.setExpiration(validity)
+			.compact();
+	}
+
+	public String createRefreshToken(String id) {
+		long now = (new Date()).getTime();
+		Date validity = new Date(now + this.refreshTokenValidityInMilliseconds);
+		return Jwts.builder()
+			.setSubject(id)
+			.setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
+			.setExpiration(validity)
+			.signWith(key, SignatureAlgorithm.HS512)
+			.compact();
 	}
 
 	public Authentication getAuthentication(String token) {
