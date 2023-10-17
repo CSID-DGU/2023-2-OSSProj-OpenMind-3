@@ -8,6 +8,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ossprac.openmind.global.config.jwt.JwtAuthenticationEntryPoint;
 import com.ossprac.openmind.global.config.jwt.JwtAuthenticationFilter;
 import com.ossprac.openmind.global.config.jwt.JwtTokenProvider;
 
@@ -19,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
 	private final JwtTokenProvider jwtTokenProvider;
+	private final ObjectMapper objectMapper;
+	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,7 +37,8 @@ public class SecurityConfig {
 			.antMatchers("/user/login").permitAll()
 			.anyRequest().authenticated()
 			.and()
-			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, objectMapper), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(jwtAuthenticationEntryPoint, JwtAuthenticationFilter.class);
 		return http.build();
 	}
 }
