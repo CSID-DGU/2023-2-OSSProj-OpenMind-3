@@ -23,4 +23,10 @@ public class EventController {
     public ResponseEntity<?> addEvent(@RequestBody EventRequestDto requestDto) {
           return eventService.addEvent(requestDto);
     }
+
+    @ApiOperation("일정 조회")
+    @GetMapping(value = "/{eventId}")
+    public ResponseEntity<?> getEvent(@PathVariable Long eventId) {
+        return eventService.getEvent(eventId);
+    }
 }

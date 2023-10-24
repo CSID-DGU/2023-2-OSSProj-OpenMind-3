@@ -32,18 +32,37 @@ public class EventService {
                 log.error("error : {}", e.getMessage());
                 return ResponseEntity.badRequest().body(e.getMessage());
             }
-            EventResponseDto response = EventResponseDto.builder()
-                    .id(savedEvent.getId())
-                    .title(savedEvent.getTitle())
-                    .description(savedEvent.getDescription())
-                    .startDate(savedEvent.getStartDate())
-                    .endDate(savedEvent.getEndDate())
-                    .build();
+            EventResponseDto response = getResponseEventDto(savedEvent);
             return ResponseEntity.ok().body(response);
         }
         catch (Exception e) {
             log.error("error : {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> getEvent(Long eventId) {
+        try {
+            Event event = eventRepository.findById(eventId).orElse(null);
+            EventResponseDto response = null;
+            if (event != null) {
+                response = getResponseEventDto(event);
+            }
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            log.error("error : {}", e.getMessage());
+            return null;
+        }
+    }
+
+    private static EventResponseDto getResponseEventDto(Event savedEvent) {
+        return EventResponseDto.builder()
+                .id(savedEvent.getId())
+                .title(savedEvent.getTitle())
+                .description(savedEvent.getDescription())
+                .startDate(savedEvent.getStartDate())
+                .endDate(savedEvent.getEndDate())
+                .build();
     }
 }
