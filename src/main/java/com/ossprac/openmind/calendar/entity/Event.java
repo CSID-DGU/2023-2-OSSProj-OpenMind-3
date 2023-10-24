@@ -1,7 +1,9 @@
 package com.ossprac.openmind.calendar.entity;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -9,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "events")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Event {
 
     @Id
