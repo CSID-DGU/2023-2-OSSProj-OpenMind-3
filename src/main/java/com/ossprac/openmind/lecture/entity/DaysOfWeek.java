@@ -1,5 +1,7 @@
 package com.ossprac.openmind.lecture.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import lombok.Getter;
 
 @Getter

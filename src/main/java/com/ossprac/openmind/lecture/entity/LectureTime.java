@@ -15,9 +15,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Table(name = "lecture_time")
 public class LectureTime {
 	@Id
@@ -37,4 +39,11 @@ public class LectureTime {
 
 	@Column(name = "end_time", nullable = false)
 	private LocalTime endTime;
+
+	public LectureTime(Lecture lecture, DaysOfWeek daysOfWeek, LocalTime startTime, LocalTime endTime) {
+		this.lecture = lecture;
+		this.daysOfWeek = daysOfWeek;
+		this.startTime = startTime;
+		this.endTime = endTime;
+	}
 }

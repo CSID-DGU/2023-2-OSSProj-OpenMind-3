@@ -8,9 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Table(name = "lecture")
 public class Lecture {
 
@@ -24,4 +26,9 @@ public class Lecture {
 
 	@Column(name = "is_open", nullable = false)
 	private boolean isOpen;
+
+	public Lecture(String name) {
+		this.name = name;
+		this.isOpen = false;
+	}
 }
