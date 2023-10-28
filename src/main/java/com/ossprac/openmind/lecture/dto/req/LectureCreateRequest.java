@@ -2,6 +2,9 @@ package com.ossprac.openmind.lecture.dto.req;
 
 import java.util.List;
 
+import lombok.Getter;
+
+@Getter
 public class LectureCreateRequest {
 	private final String name;
 	private final List<LectureTimeCreateRequest> lectureTimeList;
