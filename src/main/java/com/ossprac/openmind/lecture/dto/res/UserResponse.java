@@ -15,6 +15,10 @@ public class UserResponse {
 	public UserResponse(String name, String major, String studentId) {
 		this.name = name;
 		this.major = major;
-		this.studentId = studentId;
+		this.studentId = encrypt(studentId);
+	}
+
+	private String encrypt(String studentId) {
+		return studentId.replaceAll("(\\w{4})$", "****");
 	}
 }
