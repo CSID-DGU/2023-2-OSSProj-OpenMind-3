@@ -5,14 +5,17 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.ossprac.openmind.global.util.UserUtils;
 import com.ossprac.openmind.lecture.dto.req.LectureCreateRequest;
+import com.ossprac.openmind.lecture.dto.res.LectureResponse;
 import com.ossprac.openmind.lecture.dto.res.LectureUserResponse;
+import com.ossprac.openmind.lecture.dto.res.UserLectureResponse;
 import com.ossprac.openmind.lecture.dto.res.UserResponse;
 import com.ossprac.openmind.lecture.entity.Lecture;
 import com.ossprac.openmind.lecture.entity.LectureTime;
 import com.ossprac.openmind.lecture.repository.LectureRepository;
 import com.ossprac.openmind.lecture.repository.LectureTimeRepository;
-import com.ossprac.openmind.lecture.repository.LectureUserRepository;
+import com.ossprac.openmind.lecture.repository.UserLectureRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +25,8 @@ public class LectureService {
 
 	private final LectureRepository lectureRepository;
 	private final LectureTimeRepository lectureTimeRepository;
-	private final LectureUserRepository lectureUserRepository;
+	private final UserLectureRepository userLectureRepository;
+	private final UserUtils userUtils;
 
 	public void createLecture(LectureCreateRequest request) {
 		Lecture lecture = new Lecture(request.getName());
@@ -41,8 +45,13 @@ public class LectureService {
 
 	public LectureUserResponse getStudentList(Long lectureId) {
 		Lecture lecture = lectureRepository.findById(lectureId).orElseThrow();
-		List<UserResponse> userList = lectureUserRepository.findUserListInLecture(lecture);
+		List<UserResponse> userList = userLectureRepository.findUserListInLecture(lecture);
 		return new LectureUserResponse(userList);
+	}
+
+	public UserLectureResponse getUserLecture() {
+		List<LectureResponse> lectureList = userLectureRepository.findUserLecture(userUtils.getUser());
+		return new UserLectureResponse(lectureList);
 	}
 
 }

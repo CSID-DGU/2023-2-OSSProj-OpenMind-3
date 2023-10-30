@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ossprac.openmind.global.util.UserUtils;
 import com.ossprac.openmind.lecture.dto.req.LectureCreateRequest;
 import com.ossprac.openmind.lecture.dto.res.LectureUserResponse;
+import com.ossprac.openmind.lecture.dto.res.UserLectureResponse;
 import com.ossprac.openmind.lecture.service.LectureService;
 
 import io.swagger.annotations.ApiOperation;
@@ -33,5 +35,11 @@ public class LectureController {
 	@GetMapping("/{lectureId}/student-list")
 	public ResponseEntity<LectureUserResponse> getStudentList(@PathVariable Long lectureId) {
 		return ResponseEntity.ok(lectureService.getStudentList(lectureId));
+	}
+
+	@ApiOperation("내 강의 조회 API")
+	@GetMapping
+	public ResponseEntity<UserLectureResponse> getUserLecture() {
+		return ResponseEntity.ok(lectureService.getUserLecture());
 	}
 }
