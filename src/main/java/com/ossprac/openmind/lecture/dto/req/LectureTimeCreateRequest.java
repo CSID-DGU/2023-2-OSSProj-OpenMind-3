@@ -4,17 +4,14 @@ import java.time.LocalTime;
 
 import com.ossprac.openmind.lecture.entity.DaysOfWeek;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class LectureTimeCreateRequest {
-	private final DaysOfWeek daysOfWeek;
-	private final LocalTime startTime;
-	private final LocalTime endTime;
-
-	public LectureTimeCreateRequest(String daysOfWeek, LocalTime startTime, LocalTime endTime) {
-		this.daysOfWeek = DaysOfWeek.from(daysOfWeek);
-		this.startTime = startTime;
-		this.endTime = endTime;
-	}
+	private DaysOfWeek daysOfWeek;
+	private LocalTime startTime;
+	private LocalTime endTime;
 }

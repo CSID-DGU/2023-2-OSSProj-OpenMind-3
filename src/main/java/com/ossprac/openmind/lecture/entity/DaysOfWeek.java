@@ -19,4 +19,13 @@ public enum DaysOfWeek {
 	DaysOfWeek(String value) {
 		this.value = value;
 	}
+	@JsonCreator
+	public static DaysOfWeek from(String value) {
+		for (DaysOfWeek daysOfWeek : DaysOfWeek.values()) {
+			if (daysOfWeek.getValue().equals(value)) {
+				return daysOfWeek;
+			}
+		}
+		return null;
+	}
 }

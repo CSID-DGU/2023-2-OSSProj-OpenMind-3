@@ -2,15 +2,13 @@ package com.ossprac.openmind.lecture.dto.req;
 
 import java.util.List;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class LectureCreateRequest {
-	private final String name;
-	private final List<LectureTimeCreateRequest> lectureTimeList;
-
-	public LectureCreateRequest(String name, List<LectureTimeCreateRequest> lectureTimeList) {
-		this.name = name;
-		this.lectureTimeList = lectureTimeList;
-	}
+	private String name;
+	private List<LectureTimeCreateRequest> lectureTimeList;
 }
