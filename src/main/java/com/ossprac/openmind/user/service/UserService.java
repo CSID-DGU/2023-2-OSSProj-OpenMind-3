@@ -4,6 +4,7 @@ import static com.ossprac.openmind.global.util.UserUtils.*;
 
 import java.time.Duration;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.ossprac.openmind.global.config.jwt.JwtTokenProvider;
@@ -34,16 +35,16 @@ public class UserService {
 
 		User user = userUtils.findUser(requestId);
 		userValidationService.validatePassword(user, requestPassword);
-		securityUtils.setAuthentication(requestId, requestPassword);
-		TokenResponse tokenResponse = createAndSetToken(requestId);
+		Authentication authentication = securityUtils.setAuthentication(requestId, requestPassword);
+		TokenResponse tokenResponse = createAndSetToken(authentication);
 
 		return LoginResponse.from(user.getId(), tokenResponse.getAtk(), tokenResponse.getRtk());
 	}
 
-	private TokenResponse createAndSetToken(String requestId) {
-		String atk = jwtTokenProvider.createToken(requestId);
-		String rtk = jwtTokenProvider.createRefreshToken(requestId);
-		redisUtils.setValues(requestId, rtk, Duration.ofDays(14));
+	private TokenResponse createAndSetToken(Authentication authentication) {
+		String atk = jwtTokenProvider.createToken(authentication);
+		String rtk = jwtTokenProvider.createRefreshToken(authentication.getName());
+		redisUtils.setValues(authentication.getName(), rtk, Duration.ofDays(14));
 
 		return TokenResponse.from(atk, rtk);
 	}

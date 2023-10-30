@@ -58,13 +58,16 @@ public class JwtTokenProvider implements InitializingBean {
 		}
 	}
 
-	public String createToken(String id) {
-
+	public String createToken(Authentication authentication) {
+		String authorities = authentication.getAuthorities().stream()
+			.map(GrantedAuthority::getAuthority)
+			.collect(Collectors.joining(","));
 		long now = (new Date()).getTime();
 		Date validity = new Date(now + this.tokenValidityInMilliseconds);
 
 		return Jwts.builder()
-			.setSubject(id)
+			.setSubject(authentication.getName())
+			.claim(AUTHORITIES_KEY, authorities)
 			.setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
 			.signWith(key, SignatureAlgorithm.HS512)
 			.setExpiration(validity)
@@ -96,7 +99,6 @@ public class JwtTokenProvider implements InitializingBean {
 				.collect(Collectors.toList());
 
 		User principal = new User(claims.getSubject(), "", authorities);
-
 		return new UsernamePasswordAuthenticationToken(principal, token, authorities);
 	}
 
