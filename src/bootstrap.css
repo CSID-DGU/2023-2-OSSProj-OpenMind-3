@@ -9033,6 +9033,7 @@ a:focus {
 .container-md,
 .container-sm,
 .container-xl {
+  background-color: white;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
