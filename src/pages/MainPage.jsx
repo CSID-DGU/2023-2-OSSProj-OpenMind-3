@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import * as s from '../style/MainPage.style';
 import Calendar from '../components/Calendar';
 
 const MainPage = () => {
-  const [teamInfo, setTeamInfo] = useState([]);
+  // const [teamInfo, setTeamInfo] = useState([]);
 
   return (
     <s.Wrapper>
@@ -20,7 +20,6 @@ const MainPage = () => {
                 <h6 className='m-0 font-weight-bold'>팀원 정보</h6>
                 <div className='dropdown no-arrow'>
                   <a
-                    href='/'
                     className='dropdown-toggle mr-3'
                     role='button'
                     // onClick={() => {

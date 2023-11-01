@@ -6,11 +6,23 @@ import SchedulePage from './pages/SchedulePage';
 import DocumentPage from './pages/DocumentPage';
 import LandingPage from './pages/LandingPage';
 import MainPage from './pages/MainPage';
+import { Select } from './components/Select';
+import { Login } from './components/Login';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <LandingPage />,
+    children: [
+      {
+        path: '',
+        element: <Login />,
+      },
+      {
+        path: '/select',
+        element: <Select />,
+      },
+    ],
   },
   {
     path: '/teamspace',
