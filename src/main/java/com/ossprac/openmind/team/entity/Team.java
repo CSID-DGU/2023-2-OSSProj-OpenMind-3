@@ -3,13 +3,15 @@ package com.ossprac.openmind.team.entity;
 import javax.persistence.*;
 
 import com.ossprac.openmind.lecture.entity.Lecture;
+import com.ossprac.openmind.lecture.repository.LectureRepository;
+import com.ossprac.openmind.team.dto.req.TeamCreateRequest;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Table(name = "teams")
 public class Team {
 

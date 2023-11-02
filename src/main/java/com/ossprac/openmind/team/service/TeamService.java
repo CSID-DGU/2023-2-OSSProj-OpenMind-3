@@ -1,13 +1,17 @@
 package com.ossprac.openmind.team.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import com.ossprac.openmind.lecture.entity.Lecture;
-import com.ossprac.openmind.lecture.repository.LectureRepository;
 import com.ossprac.openmind.team.dto.req.TeamCreateRequest;
+import com.ossprac.openmind.team.dto.req.TeamInvitationRequest;
 import com.ossprac.openmind.team.dto.res.TeamCreateResponse;
 import com.ossprac.openmind.team.entity.Team;
+import com.ossprac.openmind.team.entity.UserTeam;
+import com.ossprac.openmind.team.mapper.TeamEntityMapper;
 import com.ossprac.openmind.team.repository.TeamRepository;
+import com.ossprac.openmind.team.repository.UserTeamRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,17 +19,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TeamService {
 	private final TeamRepository teamRepository;
-	private final LectureRepository lectureRepository;
+	private final UserTeamRepository userTeamRepository;
+	private final TeamEntityMapper teamEntityMapper;
 
 	public TeamCreateResponse createTeam(TeamCreateRequest request) {
-		Team team = teamRepository.save(toEntity(request));
+		Team team = teamRepository.save(teamEntityMapper.toTeamEntity(request));
 		return new TeamCreateResponse(team.getId(), team.getName());
 	}
 
-	private Team toEntity(TeamCreateRequest request) {
-		Lecture lecture = lectureRepository.findById(request.getLectureId()).orElseThrow();
-		String name = request.getTeamName();
-		return new Team(lecture, name);
+	public void inviteMember(TeamInvitationRequest request) {
+		userTeamRepository.saveAll(teamEntityMapper.toUserTeamEntity(request));
 	}
+
 
 }
