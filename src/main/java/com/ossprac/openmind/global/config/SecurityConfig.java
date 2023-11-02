@@ -2,6 +2,7 @@ package com.ossprac.openmind.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -38,13 +39,12 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 			.csrf().disable()
-			.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 			.formLogin().disable()
 			.httpBasic().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeRequests()
-			.antMatchers("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs").permitAll()
+			.antMatchers(HttpMethod.OPTIONS, "/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs").permitAll()
 			.antMatchers("/user/login").permitAll()
 			.anyRequest().authenticated()
 			.and()
