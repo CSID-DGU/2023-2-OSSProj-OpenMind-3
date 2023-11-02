@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ossprac.openmind.global.config.jwt.JwtAuthenticationEntryPoint;
@@ -26,6 +27,7 @@ public class SecurityConfig {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final SecurityUtils securityUtils;
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	private final CorsFilter corsFilter;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -36,6 +38,7 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 			.csrf().disable()
+			.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 			.formLogin().disable()
 			.httpBasic().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
