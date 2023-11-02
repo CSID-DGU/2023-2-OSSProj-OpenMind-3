@@ -1,5 +1,6 @@
 package com.ossprac.openmind.calendar.entity;
 
+import com.ossprac.openmind.team.entity.Team;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,9 +19,9 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "team_id")
-//    private Team team;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     private String title;
 
@@ -42,8 +43,23 @@ public class Event {
     }
 
     //==연관 관계 편의 메서드 ==//
-//    public void setTeam(Team team) {
-//        team.getEvents().add(this);
-//        this.team = team;
-//    }
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public void updateEventTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateEventDescription(String description) {
+        this.description = description;
+    }
+
+    public void updateEventStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public void updateEventEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
 }
