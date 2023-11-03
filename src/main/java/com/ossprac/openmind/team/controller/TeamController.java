@@ -16,6 +16,8 @@ import com.ossprac.openmind.team.dto.res.TeamInvitationNotificationResponse;
 import com.ossprac.openmind.team.dto.res.TeamMemberResponse;
 import com.ossprac.openmind.team.service.TeamService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -23,12 +25,15 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/team")
 public class TeamController {
 	private final TeamService teamService;
+
+	@ApiOperation("팀생성 API")
 	@PostMapping
 	public ResponseEntity<TeamCreateResponse> createTeam(
 		@RequestBody TeamCreateRequest request) {
 		return ResponseEntity.ok(teamService.createTeam(request));
 	}
 
+	@ApiOperation("팀원초대 API")
 	@PostMapping("/invitation")
 	public ResponseEntity<String> inviteMember(@RequestBody TeamInvitationRequest request) {
 		teamService.inviteMember(request);
@@ -47,6 +52,7 @@ public class TeamController {
 		return ResponseEntity.ok(teamService.respondToInvitation(notificationId, accepted));
 	}
 
+	@ApiOperation("팀원정보 가져오는 API")
 	@GetMapping("/members")
 	public ResponseEntity<TeamMemberResponse> getMembers() {
 		return ResponseEntity.ok(teamService.getMembers());
