@@ -10,6 +10,7 @@ import com.ossprac.openmind.team.dto.req.TeamInvitationRequest;
 import com.ossprac.openmind.team.dto.res.TeamCreateResponse;
 import com.ossprac.openmind.team.dto.res.TeamInvitationNotificationResponse;
 import com.ossprac.openmind.team.dto.res.NotificationResponse;
+import com.ossprac.openmind.team.dto.res.TeamMemberResponse;
 import com.ossprac.openmind.team.entity.Team;
 import com.ossprac.openmind.team.entity.UserTeam;
 import com.ossprac.openmind.team.mapper.TeamDtoMapper;
@@ -44,7 +45,22 @@ public class TeamService {
 	public NotificationResponse respondToInvitation(Long notificationId, boolean accepted) {
 		UserTeam userTeam = userTeamRepository.findById(notificationId).orElseThrow();
 		userTeam.updateAcceptance(accepted);
+		userTeamRepository.save(userTeam);
 		return teamDtoMapper.toNotificationResponse(userTeam);
+	}
+
+	public TeamMemberResponse getMembers() {
+		List<UserTeam> userTeams = getSameUserTeams();
+		return new TeamMemberResponse(
+			userTeams.get(0).getTeam().getId(),
+			userTeams.get(0).getTeam().getName(),
+			teamDtoMapper.toUserResponses(userTeams));
+	}
+
+	private List<UserTeam> getSameUserTeams() {
+		UserTeam userTeam = userTeamRepository.findByUser(userUtils.getUser());
+		Team team = userTeam.getTeam();
+		return userTeamRepository.findAllByTeamAndAcceptedIsTrue(team);
 	}
 
 	private void addMember(Team team, User user) {

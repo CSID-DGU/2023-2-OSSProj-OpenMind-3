@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.ossprac.openmind.lecture.dto.res.UserResponse;
 import com.ossprac.openmind.team.dto.res.NotificationResponse;
+import com.ossprac.openmind.team.dto.res.TeamMemberResponse;
 import com.ossprac.openmind.team.entity.UserTeam;
 
 import lombok.RequiredArgsConstructor;
@@ -25,5 +27,18 @@ public class TeamDtoMapper {
 			userTeam.getTeam().getId(),
 			userTeam.getTeam().getName(),
 			userTeam.isAccepted());
+	}
+
+	public List<UserResponse> toUserResponses(List<UserTeam> userTeams) {
+		return userTeams.stream()
+			.map(userTeam -> toUserResponse(userTeam))
+			.collect(Collectors.toList());
+	}
+
+	public UserResponse toUserResponse(UserTeam userTeam) {
+		return new UserResponse(
+			userTeam.getUser().getName(),
+			userTeam.getUser().getMajor(),
+			userTeam.getUser().getStudentId());
 	}
 }

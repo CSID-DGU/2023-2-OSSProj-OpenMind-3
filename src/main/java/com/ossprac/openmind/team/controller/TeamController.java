@@ -13,6 +13,7 @@ import com.ossprac.openmind.team.dto.req.TeamInvitationRequest;
 import com.ossprac.openmind.team.dto.res.NotificationResponse;
 import com.ossprac.openmind.team.dto.res.TeamCreateResponse;
 import com.ossprac.openmind.team.dto.res.TeamInvitationNotificationResponse;
+import com.ossprac.openmind.team.dto.res.TeamMemberResponse;
 import com.ossprac.openmind.team.service.TeamService;
 
 import lombok.RequiredArgsConstructor;
@@ -44,5 +45,10 @@ public class TeamController {
 		@PathVariable Long notificationId,
 		@PathVariable boolean accepted) {
 		return ResponseEntity.ok(teamService.respondToInvitation(notificationId, accepted));
+	}
+
+	@GetMapping("/members")
+	public ResponseEntity<TeamMemberResponse> getMembers() {
+		return ResponseEntity.ok(teamService.getMembers());
 	}
 }
