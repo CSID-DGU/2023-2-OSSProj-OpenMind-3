@@ -15,20 +15,6 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class TeamDtoMapper {
-	public List<NotificationResponse> toNotificationResponses(List<UserTeam> userTeams) {
-		return userTeams.stream()
-			.map(userTeam -> toNotificationResponse(userTeam))
-			.collect(Collectors.toList());
-	}
-
-	public NotificationResponse toNotificationResponse(UserTeam userTeam) {
-		return new NotificationResponse(
-			userTeam.getId(),
-			userTeam.getTeam().getId(),
-			userTeam.getTeam().getName(),
-			userTeam.isAccepted());
-	}
-
 	public List<UserResponse> toUserResponses(List<UserTeam> userTeams) {
 		return userTeams.stream()
 			.map(userTeam -> toUserResponse(userTeam))

@@ -36,19 +36,6 @@ public class TeamService {
 		return new TeamCreateResponse(team.getId(), team.getName());
 	}
 
-	public TeamInvitationNotificationResponse getInvitationNotification() {
-		List<UserTeam> userTeams = userTeamRepository.findAllByUser(userUtils.getUser());
-		List<NotificationResponse> notificationRespons = teamDtoMapper.toNotificationResponses(userTeams);
-		return new TeamInvitationNotificationResponse(notificationRespons);
-	}
-
-	public NotificationResponse respondToInvitation(Long notificationId, boolean accepted) {
-		UserTeam userTeam = userTeamRepository.findById(notificationId).orElseThrow();
-		userTeam.updateAcceptance(accepted);
-		userTeamRepository.save(userTeam);
-		return teamDtoMapper.toNotificationResponse(userTeam);
-	}
-
 	public TeamMemberResponse getMembers() {
 		List<UserTeam> userTeams = getSameUserTeams();
 		return new TeamMemberResponse(
@@ -70,7 +57,4 @@ public class TeamService {
 	public void inviteMember(TeamInvitationRequest request) {
 		userTeamRepository.saveAll(teamEntityMapper.toUserTeamEntity(request));
 	}
-
-
-
 }
