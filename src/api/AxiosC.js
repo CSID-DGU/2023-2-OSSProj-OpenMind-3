@@ -13,6 +13,7 @@ const addRefreshSubscriber = (callback) => {
   refreshSubscribers.push(callback);
 };
 
+axios.defaults.withCredentials = true;
 axios.interceptors.response.use(
   (response) => {
     return response;
@@ -33,9 +34,10 @@ axios.interceptors.response.use(
           window.reload();
         }
         try {
-          const { data } = await axios.post(`${BASE_URL}/user/refresh-token`, {
-            refreshToken,
-          });
+          const { data } = await axios.post(
+            `${BASE_URL}/user/refreshToken`,
+            refreshToken
+          );
           // 새로운 토큰 저장
           console.log(data);
           localStorage.setItem('refreshToken', data.rtk);
