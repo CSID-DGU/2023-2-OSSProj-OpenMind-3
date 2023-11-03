@@ -38,7 +38,7 @@ public class UserService {
 		Authentication authentication = securityUtils.setAuthentication(requestId, requestPassword);
 		TokenResponse tokenResponse = createAndSetToken(authentication);
 
-		return LoginResponse.from(user.getId(), tokenResponse.getAtk(), tokenResponse.getRtk());
+		return LoginResponse.from(user.getId(), user.getName(), tokenResponse.getAtk(), tokenResponse.getRtk());
 	}
 
 	private TokenResponse createAndSetToken(Authentication authentication) {
