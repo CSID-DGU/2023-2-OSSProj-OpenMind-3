@@ -1,7 +1,6 @@
 package com.ossprac.openmind.team.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -10,7 +9,7 @@ import com.ossprac.openmind.team.dto.req.TeamCreateRequest;
 import com.ossprac.openmind.team.dto.req.TeamInvitationRequest;
 import com.ossprac.openmind.team.dto.res.TeamCreateResponse;
 import com.ossprac.openmind.team.dto.res.TeamInvitationNotificationResponse;
-import com.ossprac.openmind.team.dto.res.TeamResponse;
+import com.ossprac.openmind.team.dto.res.NotificationResponse;
 import com.ossprac.openmind.team.entity.Team;
 import com.ossprac.openmind.team.entity.UserTeam;
 import com.ossprac.openmind.team.mapper.TeamDtoMapper;
@@ -38,8 +37,14 @@ public class TeamService {
 
 	public TeamInvitationNotificationResponse getInvitationNotification() {
 		List<UserTeam> userTeams = userTeamRepository.findAllByUser(userUtils.getUser());
-		List<TeamResponse> teamResponses = teamDtoMapper.fromEntity(userTeams);
-		return new TeamInvitationNotificationResponse(teamResponses);
+		List<NotificationResponse> notificationRespons = teamDtoMapper.toNotificationResponses(userTeams);
+		return new TeamInvitationNotificationResponse(notificationRespons);
+	}
+
+	public NotificationResponse respondToInvitation(Long notificationId, boolean accepted) {
+		UserTeam userTeam = userTeamRepository.findById(notificationId).orElseThrow();
+		userTeam.updateAcceptance(accepted);
+		return teamDtoMapper.toNotificationResponse(userTeam);
 	}
 
 	private void addMember(Team team, User user) {
@@ -49,6 +54,7 @@ public class TeamService {
 	public void inviteMember(TeamInvitationRequest request) {
 		userTeamRepository.saveAll(teamEntityMapper.toUserTeamEntity(request));
 	}
+
 
 
 }

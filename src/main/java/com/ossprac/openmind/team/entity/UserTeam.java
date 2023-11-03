@@ -40,4 +40,8 @@ public class UserTeam {
 		this.team = team;
 		this.user = user;
 	}
+
+	public void updateAcceptance(boolean accepted) {
+		this.accepted = accepted;
+	}
 }

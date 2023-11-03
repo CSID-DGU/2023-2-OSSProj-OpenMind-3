@@ -6,9 +6,9 @@ import lombok.Getter;
 
 @Getter
 public class TeamInvitationNotificationResponse {
-	private List<TeamResponse> teamResponses;
+	private List<NotificationResponse> notificationRespons;
 
-	public TeamInvitationNotificationResponse(List<TeamResponse> teamResponses) {
-		this.teamResponses = teamResponses;
+	public TeamInvitationNotificationResponse(List<NotificationResponse> notificationRespons) {
+		this.notificationRespons = notificationRespons;
 	}
 }
