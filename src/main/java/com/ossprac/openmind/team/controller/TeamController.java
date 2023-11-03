@@ -11,6 +11,7 @@ import com.ossprac.openmind.team.dto.req.TeamCreateRequest;
 import com.ossprac.openmind.team.dto.req.TeamInvitationRequest;
 import com.ossprac.openmind.team.dto.res.TeamCreateResponse;
 import com.ossprac.openmind.team.dto.res.TeamMemberResponse;
+import com.ossprac.openmind.team.dto.res.TeamResponses;
 import com.ossprac.openmind.team.service.TeamService;
 
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +28,12 @@ public class TeamController {
 	public ResponseEntity<TeamCreateResponse> createTeam(
 		@RequestBody TeamCreateRequest request) {
 		return ResponseEntity.ok(teamService.createTeam(request));
+	}
+
+	@ApiOperation("팀조회 API")
+	@GetMapping
+	public ResponseEntity<TeamResponses> getTeams() {
+		return ResponseEntity.ok(teamService.getTeams());
 	}
 
 	@ApiOperation("팀원초대 API")
