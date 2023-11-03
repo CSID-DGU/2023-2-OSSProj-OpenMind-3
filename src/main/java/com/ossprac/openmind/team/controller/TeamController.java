@@ -1,6 +1,7 @@
 package com.ossprac.openmind.team.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ossprac.openmind.team.dto.req.TeamCreateRequest;
 import com.ossprac.openmind.team.dto.req.TeamInvitationRequest;
 import com.ossprac.openmind.team.dto.res.TeamCreateResponse;
+import com.ossprac.openmind.team.dto.res.TeamInvitationNotificationResponse;
 import com.ossprac.openmind.team.service.TeamService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,4 +32,8 @@ public class TeamController {
 		return ResponseEntity.ok("success");
 	}
 
+	@GetMapping("/invitation/notification")
+	public ResponseEntity<TeamInvitationNotificationResponse> getInvitationNotification() {
+		return ResponseEntity.ok(teamService.getInvitationNotification());
+	}
 }
