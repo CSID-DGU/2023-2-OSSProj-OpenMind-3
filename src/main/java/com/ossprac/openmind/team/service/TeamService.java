@@ -1,6 +1,7 @@
 package com.ossprac.openmind.team.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -8,9 +9,9 @@ import com.ossprac.openmind.global.util.UserUtils;
 import com.ossprac.openmind.team.dto.req.TeamCreateRequest;
 import com.ossprac.openmind.team.dto.req.TeamInvitationRequest;
 import com.ossprac.openmind.team.dto.res.TeamCreateResponse;
-import com.ossprac.openmind.team.dto.res.TeamInvitationNotificationResponse;
-import com.ossprac.openmind.team.dto.res.NotificationResponse;
 import com.ossprac.openmind.team.dto.res.TeamMemberResponse;
+import com.ossprac.openmind.team.dto.res.TeamResponse;
+import com.ossprac.openmind.team.dto.res.TeamResponses;
 import com.ossprac.openmind.team.entity.Team;
 import com.ossprac.openmind.team.entity.UserTeam;
 import com.ossprac.openmind.team.mapper.TeamDtoMapper;
@@ -36,17 +37,9 @@ public class TeamService {
 		return new TeamCreateResponse(team.getId(), team.getName());
 	}
 
-	public TeamInvitationNotificationResponse getInvitationNotification() {
-		List<UserTeam> userTeams = userTeamRepository.findAllByUser(userUtils.getUser());
-		List<NotificationResponse> notificationRespons = teamDtoMapper.toNotificationResponses(userTeams);
-		return new TeamInvitationNotificationResponse(notificationRespons);
-	}
-
-	public NotificationResponse respondToInvitation(Long notificationId, boolean accepted) {
-		UserTeam userTeam = userTeamRepository.findById(notificationId).orElseThrow();
-		userTeam.updateAcceptance(accepted);
-		userTeamRepository.save(userTeam);
-		return teamDtoMapper.toNotificationResponse(userTeam);
+	public TeamResponses getTeams() {
+		List<Team> teams = teamRepository.findTeamsByUser(userUtils.getUser());
+		return new TeamResponses(teamDtoMapper.toTeamResponses(teams));
 	}
 
 	public TeamMemberResponse getMembers() {
@@ -70,7 +63,4 @@ public class TeamService {
 	public void inviteMember(TeamInvitationRequest request) {
 		userTeamRepository.saveAll(teamEntityMapper.toUserTeamEntity(request));
 	}
-
-
-
 }
