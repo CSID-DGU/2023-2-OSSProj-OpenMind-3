@@ -26,7 +26,7 @@ public class TeamDtoMapper {
 
 	public List<UserResponse> toUserResponses(List<User> users) {
 		return users.stream()
-			.map(user -> new UserResponse(user.getName(), user.getMajor(), user.getStudentId()))
+			.map(user -> new UserResponse(user.getId(), user.getName(), user.getMajor(), user.getStudentId()))
 			.collect(Collectors.toList());
 	}
 }

@@ -7,12 +7,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UserResponse {
+	private Long userId;
 	private String name;
 	private String major;
 	private String studentId;
 
 	@Builder
-	public UserResponse(String name, String major, String studentId) {
+	public UserResponse(Long userId, String name, String major, String studentId) {
+		this.userId = userId;
 		this.name = name;
 		this.major = major;
 		this.studentId = encrypt(studentId);

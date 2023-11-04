@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ossprac.openmind.global.util.UserUtils;
 import com.ossprac.openmind.lecture.dto.req.LectureCreateRequest;
 import com.ossprac.openmind.lecture.dto.res.LectureUserResponse;
 import com.ossprac.openmind.lecture.dto.res.UserLectureResponse;
