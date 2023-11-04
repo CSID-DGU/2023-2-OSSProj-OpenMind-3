@@ -6,6 +6,7 @@ import '../bootstrap.css';
 
 const TeamSpace = () => {
   const pathname = window.location.pathname;
+  const userId = localStorage.getItem('userId');
 
   return (
     <>
@@ -48,7 +49,7 @@ const TeamSpace = () => {
           {/*<!-- Nav Item - User Information -->*/}
 
           <span className='mr-2 d-none d-lg-inline text-gray-600 small user-info'>
-            2023111111 홍길동님
+            {userId} 홍길동님
             {/* {userInfo ? `${userInfo.name} (${userInfo.studentId})` : ''} */}
           </span>
 

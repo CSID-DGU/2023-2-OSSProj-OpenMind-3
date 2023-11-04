@@ -41,6 +41,7 @@ export const Login = () => {
         sessionStorage.setItem('accessToken', data.atk);
         localStorage.setItem('refreshToken', data.rtk);
         localStorage.setItem('userName', data.name);
+        localStorage.setItem('userId', user.id);
         navigate('/select');
         console.log('이동!');
       })
