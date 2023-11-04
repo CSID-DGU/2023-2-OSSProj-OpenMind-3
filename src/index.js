@@ -8,6 +8,7 @@ import LandingPage from './pages/LandingPage';
 import MainPage from './pages/MainPage';
 import { Select } from './components/Select';
 import { Login } from './components/Login';
+import { CreateTeam } from './components/CreateTeam';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: '/select',
         element: <Select />,
+      },
+      {
+        path: 'select/:lectureId',
+        element: <CreateTeam />,
       },
     ],
   },

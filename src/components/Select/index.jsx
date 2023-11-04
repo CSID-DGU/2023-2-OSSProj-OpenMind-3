@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import * as s from './Select.style.js';
 import axios from '../../api/AxiosC.js';
+import { useParams } from 'react-router-dom';
 
 export const Select = () => {
   const [lectures, setLectures] = useState([]);
   const accessToken = sessionStorage.getItem('accessToken');
   const userName = localStorage.getItem('userName');
+  const params = useParams();
 
   useEffect(() => {
     axios
@@ -39,7 +41,7 @@ export const Select = () => {
         <s.SelectList>
           {lectures.map((item) => (
             <s.SelectItem key={`lectureItem_${item.id}`}>
-              <s.LinkItem to={'/teamspace/main'}>{item.name}</s.LinkItem>
+              <s.LinkItem to={`:${item.id}`}>{item.name}</s.LinkItem>
             </s.SelectItem>
           ))}
         </s.SelectList>

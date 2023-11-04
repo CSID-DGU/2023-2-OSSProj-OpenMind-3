@@ -29,6 +29,7 @@ export const Login = () => {
         }
         if (response.status === 400) {
           console.log(400);
+          console.log(response);
           const responseData = response.data;
           const errorMessages = Object.values(responseData.error).join('\n');
           alert(errorMessages);
