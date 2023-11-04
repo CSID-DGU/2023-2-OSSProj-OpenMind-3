@@ -10,28 +10,23 @@ import com.ossprac.openmind.team.dto.res.TeamResponse;
 import com.ossprac.openmind.team.dto.res.TeamResponses;
 import com.ossprac.openmind.team.entity.Team;
 import com.ossprac.openmind.team.entity.UserTeam;
+import com.ossprac.openmind.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
 public class TeamDtoMapper {
-	public List<UserResponse> toUserResponses(List<UserTeam> userTeams) {
-		return userTeams.stream()
-			.map(userTeam -> toUserResponse(userTeam))
-			.collect(Collectors.toList());
-	}
-
-	public UserResponse toUserResponse(UserTeam userTeam) {
-		return new UserResponse(
-			userTeam.getUser().getName(),
-			userTeam.getUser().getMajor(),
-			userTeam.getUser().getStudentId());
-	}
 
 	public List<TeamResponse> toTeamResponses(List<Team> teams) {
 		return teams.stream()
 			.map(team -> new TeamResponse(team.getId(), team.getName()))
+			.collect(Collectors.toList());
+	}
+
+	public List<UserResponse> toUserResponses(List<User> users) {
+		return users.stream()
+			.map(user -> new UserResponse(user.getName(), user.getMajor(), user.getStudentId()))
 			.collect(Collectors.toList());
 	}
 }

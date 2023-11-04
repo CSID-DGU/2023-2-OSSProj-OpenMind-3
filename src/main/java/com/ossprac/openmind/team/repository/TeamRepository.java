@@ -2,6 +2,7 @@ package com.ossprac.openmind.team.repository;
 
 import java.util.List;
 
+import com.ossprac.openmind.lecture.entity.Lecture;
 import com.ossprac.openmind.team.entity.Team;
 import com.ossprac.openmind.user.entity.User;
 
@@ -15,7 +16,9 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 
 	@Query("SELECT t FROM Team t "
 		+ "INNER JOIN UserTeam ut ON t.id = ut.team.id "
-		+ "WHERE ut.user = :user AND ut.accepted = true ")
-	List<Team> findTeamsByUser(@Param("user") User user);
+		+ "WHERE t.lecture = :lecture "
+		+ "AND ut.user = :user "
+		+ "AND ut.accepted = true ")
+	List<Team> findTeamsByUser(@Param("lecture") Lecture lecture, @Param("user") User user);
 }
 
