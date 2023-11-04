@@ -5,6 +5,7 @@ import axios from '../../api/AxiosC.js';
 export const Select = () => {
   const [lectures, setLectures] = useState([]);
   const accessToken = sessionStorage.getItem('accessToken');
+  const userName = localStorage.getItem('userName');
 
   useEffect(() => {
     axios
@@ -33,7 +34,7 @@ export const Select = () => {
 
   return (
     <>
-      <s.Text>홍길동님의 강의실</s.Text>
+      <s.Text>{userName}님의 강의실</s.Text>
       <s.SelectContainer>
         <s.SelectList>
           {lectures.map((item) => (
