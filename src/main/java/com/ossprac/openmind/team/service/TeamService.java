@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.ossprac.openmind.global.util.UserUtils;
+import com.ossprac.openmind.lecture.entity.Lecture;
+import com.ossprac.openmind.lecture.repository.LectureRepository;
 import com.ossprac.openmind.team.dto.req.TeamCreateRequest;
 import com.ossprac.openmind.team.dto.req.TeamInvitationRequest;
 import com.ossprac.openmind.team.dto.res.TeamCreateResponse;
@@ -37,23 +39,13 @@ public class TeamService {
 		return new TeamCreateResponse(team.getId(), team.getName());
 	}
 
-	public TeamResponses getTeams() {
-		List<Team> teams = teamRepository.findTeamsByUser(userUtils.getUser());
-		return new TeamResponses(teamDtoMapper.toTeamResponses(teams));
-	}
-
-	public TeamMemberResponse getMembers() {
-		List<UserTeam> userTeams = getSameUserTeams();
+	public TeamMemberResponse getMembers(Long teamId) {
+		Team team = teamRepository.findById(teamId).orElseThrow();
+		List<User> users = userTeamRepository.findAllByTeam(team);
 		return new TeamMemberResponse(
-			userTeams.get(0).getTeam().getId(),
-			userTeams.get(0).getTeam().getName(),
-			teamDtoMapper.toUserResponses(userTeams));
-	}
-
-	private List<UserTeam> getSameUserTeams() {
-		UserTeam userTeam = userTeamRepository.findByUser(userUtils.getUser());
-		Team team = userTeam.getTeam();
-		return userTeamRepository.findAllByTeamAndAcceptedIsTrue(team);
+			team.getId(),
+			team.getName(),
+			teamDtoMapper.toUserResponses(users));
 	}
 
 	private void addMember(Team team, User user) {

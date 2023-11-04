@@ -33,7 +33,7 @@ public class UserTeam {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@Column(name = "accepted", nullable = false)
+	@Column(name = "accepted", nullable = true)
 	private boolean accepted;
 
 	public UserTeam(Team team, User user) {

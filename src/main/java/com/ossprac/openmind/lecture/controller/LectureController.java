@@ -13,6 +13,7 @@ import com.ossprac.openmind.lecture.dto.req.LectureCreateRequest;
 import com.ossprac.openmind.lecture.dto.res.LectureUserResponse;
 import com.ossprac.openmind.lecture.dto.res.UserLectureResponse;
 import com.ossprac.openmind.lecture.service.LectureService;
+import com.ossprac.openmind.team.dto.res.TeamResponses;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,12 @@ public class LectureController {
 	@GetMapping("/{lectureId}/student-list")
 	public ResponseEntity<LectureUserResponse> getStudentList(@PathVariable Long lectureId) {
 		return ResponseEntity.ok(lectureService.getStudentList(lectureId));
+	}
+
+	@ApiOperation("강의별 팀조회 API")
+	@GetMapping("/{lectureId}/teams")
+	public ResponseEntity<TeamResponses> getTeams(@PathVariable Long lectureId) {
+		return ResponseEntity.ok(lectureService.getTeams(lectureId));
 	}
 
 	@ApiOperation("내 강의 조회 API")

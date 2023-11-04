@@ -16,6 +16,10 @@ import com.ossprac.openmind.lecture.entity.LectureTime;
 import com.ossprac.openmind.lecture.repository.LectureRepository;
 import com.ossprac.openmind.lecture.repository.LectureTimeRepository;
 import com.ossprac.openmind.lecture.repository.UserLectureRepository;
+import com.ossprac.openmind.team.dto.res.TeamResponses;
+import com.ossprac.openmind.team.entity.Team;
+import com.ossprac.openmind.team.mapper.TeamDtoMapper;
+import com.ossprac.openmind.team.repository.TeamRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +30,8 @@ public class LectureService {
 	private final LectureRepository lectureRepository;
 	private final LectureTimeRepository lectureTimeRepository;
 	private final UserLectureRepository userLectureRepository;
+	private final TeamRepository teamRepository;
+	private final TeamDtoMapper teamDtoMapper;
 	private final UserUtils userUtils;
 
 	public void createLecture(LectureCreateRequest request) {
@@ -41,6 +47,12 @@ public class LectureService {
 			.collect(Collectors.toList());
 
 		lectureTimeRepository.saveAll(lectureTimeList);
+	}
+
+	public TeamResponses getTeams(Long lectureId) {
+		Lecture lecture = lectureRepository.findById(lectureId).orElseThrow();
+		List<Team> teams = teamRepository.findTeamsByUser(lecture, userUtils.getUser());
+		return new TeamResponses(teamDtoMapper.toTeamResponses(teams));
 	}
 
 	public LectureUserResponse getStudentList(Long lectureId) {
