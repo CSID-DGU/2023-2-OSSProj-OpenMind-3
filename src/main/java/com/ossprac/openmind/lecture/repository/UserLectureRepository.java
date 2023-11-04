@@ -13,7 +13,7 @@ import com.ossprac.openmind.lecture.entity.UserLecture;
 import com.ossprac.openmind.user.entity.User;
 
 public interface UserLectureRepository extends JpaRepository<UserLecture, Long> {
-	@Query("select new com.ossprac.openmind.lecture.dto.res.UserResponse(u.name, u.major, u.studentId) "
+	@Query("select new com.ossprac.openmind.lecture.dto.res.UserResponse(u.id, u.name, u.major, u.studentId) "
 		+ "from UserLecture uL "
 		+ "inner join uL.user u "
 		+ "where uL.lecture = :lecture ")
