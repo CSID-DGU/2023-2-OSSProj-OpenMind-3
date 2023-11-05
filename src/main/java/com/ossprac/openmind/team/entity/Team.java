@@ -24,7 +24,7 @@ public class Team {
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = true)
     private String name;
 
     public Team(Lecture lecture, String name) {
