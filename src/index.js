@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         element: <Select />,
       },
       {
-        path: 'select/:lectureId',
+        path: '/select/:lectureId',
         element: <CreateTeam />,
       },
     ],
@@ -34,15 +34,15 @@ const router = createBrowserRouter([
     element: <TeamSpace />,
     children: [
       {
-        path: '/teamspace/main',
+        path: '/teamspace/main/:teamId',
         element: <MainPage />,
       },
       {
-        path: '/teamspace/schedule',
+        path: '/teamspace/schedule/:teamId',
         element: <SchedulePage />,
       },
       {
-        path: '/teamspace/document',
+        path: '/teamspace/document/:teamId',
         element: <DocumentPage />,
       },
     ],

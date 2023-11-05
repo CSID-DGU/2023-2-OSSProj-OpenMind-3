@@ -56,6 +56,6 @@ export const BoxTitle = styled.h6`
 export const AddButton = styled.img`
   width: 20px;
   height: 20px;
-  border: 1px solid black;
   z-index: 99;
+  cursor: pointer;
 `;

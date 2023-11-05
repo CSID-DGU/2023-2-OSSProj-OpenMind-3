@@ -2,9 +2,42 @@
 import * as s from '../style/MainPage.style';
 import Calendar from '../components/Calendar';
 import plus from '../assets/icon/Add.svg';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const MainPage = () => {
-  // const [teamInfo, setTeamInfo] = useState([]);
+  const [teamInfo, setTeamInfo] = useState([]);
+  const [teamMembers, setTeamMembers] = useState();
+  const params = useParams();
+  const teamId = Number(params.teamId.substring(1));
+  const accessToken = sessionStorage.getItem('accessToken');
+  const lectureName = localStorage.getItem('lectureName');
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/team/${teamId}/members`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(200);
+          return response.data;
+        }
+        if (response.status === 400) {
+          console.log(400);
+          const responseData = response.data;
+          const errorMessages = Object.values(responseData.error).join('\n');
+          alert(errorMessages);
+          throw new Error();
+        }
+      })
+      .then((data) => {
+        setTeamInfo(data);
+        setTeamMembers(data.userResponses);
+      });
+  }, []);
 
   return (
     <s.Wrapper>
@@ -14,7 +47,7 @@ const MainPage = () => {
       <s.RightContainer>
         <s.ContainerBox>
           <s.BoxHeader>
-            <s.BoxTitle>팀원 정보</s.BoxTitle>
+            <s.BoxTitle>{teamInfo.teamName}</s.BoxTitle>
             <s.AddButton src={plus}></s.AddButton>
           </s.BoxHeader>
           <div
@@ -40,32 +73,25 @@ const MainPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* {teamInfo.teamFellow.map((fellow, index) => ( */}
-                <tr style={{ textAlign: 'center' }}>
-                  <th scope='row'>1</th>
-                  <td>2019111615</td>
-                  <td>경영정보학과</td>
-                  <td>한수정</td>
-                </tr>
-                <tr style={{ textAlign: 'center' }}>
-                  <th scope='row'>2</th>
-                  <td>2019111615</td>
-                  <td>경영정보학과</td>
-                  <td>한수정</td>
-                </tr>
-                <tr style={{ textAlign: 'center' }}>
-                  <th scope='row'>3</th>
-                  <td>2019111615</td>
-                  <td>경영정보학과</td>
-                  <td>한수정</td>
-                </tr>
+                {teamMembers &&
+                  teamMembers.map((item, index) => (
+                    <tr
+                      key={`teamMember_${index + 1}`}
+                      style={{ textAlign: 'center' }}
+                    >
+                      <th scope='row'>{index + 1}</th>
+                      <td>{item.studentId}</td>
+                      <td>{item.major}</td>
+                      <td>{item.name}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
         </s.ContainerBox>
         <s.ContainerBox>
           <s.BoxHeader>
-            <s.BoxTitle>팀원 정보</s.BoxTitle>
+            <s.BoxTitle>회의록</s.BoxTitle>
             <s.AddButton src={plus}></s.AddButton>
           </s.BoxHeader>
           <div

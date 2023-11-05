@@ -7,6 +7,8 @@ import '../bootstrap.css';
 const TeamSpace = () => {
   const pathname = window.location.pathname;
   const userId = localStorage.getItem('userId');
+  const userName = localStorage.getItem('userName');
+  const lectureName = localStorage.getItem('lectureName');
 
   return (
     <>
@@ -32,12 +34,7 @@ const TeamSpace = () => {
                 />
               </a>
 
-              <div className='h6 text-gray-800'>
-                {/* <button className='btn btn-link d-md-none rounded-circle mr-3'>
-                <FontAwesomeIcon icon={faBars} />
-              </button> */}
-                오픈소스소프트웨어프로젝트
-              </div>
+              <div className='h6 text-gray-800'>{lectureName}</div>
             </div>
           </div>
         </form>
@@ -49,7 +46,7 @@ const TeamSpace = () => {
           {/*<!-- Nav Item - User Information -->*/}
 
           <span className='mr-2 d-none d-lg-inline text-gray-600 small user-info'>
-            {userId} 홍길동님
+            {userId} {userName}님
             {/* {userInfo ? `${userInfo.name} (${userInfo.studentId})` : ''} */}
           </span>
 
