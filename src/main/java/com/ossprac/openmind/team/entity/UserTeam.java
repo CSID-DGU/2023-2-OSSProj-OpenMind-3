@@ -33,12 +33,13 @@ public class UserTeam {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@Column(name = "accepted", nullable = true)
+	@Column(name = "accepted", nullable = false)
 	private boolean accepted;
 
 	public UserTeam(Team team, User user) {
 		this.team = team;
 		this.user = user;
+		this.accepted = true;
 	}
 
 	public void updateAcceptance(boolean accepted) {
