@@ -1,7 +1,6 @@
 import * as s from './Login.style.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from '../../api/AxiosC.js';
 import userAPI from '../../api/userAPI.js';
 
 export const Login = () => {

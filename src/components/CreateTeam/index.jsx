@@ -1,9 +1,9 @@
 import * as s from './CreateTeam.style';
-import axios from '../../api/AxiosC.js';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import clear from '../../assets/icon/Clear.svg';
+import teamAPI from '../../api/teamAPI.js';
 
 export const CreateTeam = () => {
   const params = useParams();
@@ -15,7 +15,6 @@ export const CreateTeam = () => {
     teamName: '',
   });
   const userName = localStorage.getItem('userName');
-  const accessToken = sessionStorage.getItem('accessToken');
 
   //팀 생성 버튼 클릭했을 때
   const handleClickCreateButton = () => {
@@ -59,26 +58,8 @@ export const CreateTeam = () => {
 
   //팀명 작성 후 확인버튼 클릭 시
   const handleClickModalButton = () => {
-    axios
-      .post(`${process.env.REACT_APP_BASE_URL}/team`, createTeam, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(200);
-          return response.data;
-        }
-        if (response.status === 400) {
-          console.log(400);
-          console.log(response);
-          const responseData = response.data;
-          const errorMessages = Object.values(responseData.error).join('\n');
-          alert(errorMessages);
-          throw new Error();
-        }
-      })
+    teamAPI
+      .createTeam(createTeam)
       .then((data) => {
         console.log(data);
         refreshTeamList();
@@ -88,30 +69,10 @@ export const CreateTeam = () => {
   };
 
   const refreshTeamList = () => {
-    axios
-      .get(`${process.env.REACT_APP_BASE_URL}/lecture/${lectureId}/teams`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(200);
-          return response.data;
-        }
-        if (response.status === 400) {
-          console.log(400);
-          const responseData = response.data;
-          const errorMessages = Object.values(responseData.error).join('\n');
-          alert(errorMessages);
-          throw new Error();
-        }
-      })
-      .then((data) => {
-        setTeamList(data.teamResponses);
-        console.log(data.teamResponses);
-        localStorage.setItem('lectureId', lectureId);
-      });
+    teamAPI.getTeamList(lectureId).then((data) => {
+      setTeamList(data.teamResponses);
+      localStorage.setItem('lectureId', lectureId);
+    });
   };
 
   useEffect(() => {

@@ -31,10 +31,10 @@ const mainpageAPI = {
       return null;
     }
   },
-  addTeamMember: async (body) => {
+  addTeamMember: async (formData) => {
     try {
       const path = `${process.env.REACT_APP_BASE_URL}/team/invitation`;
-      const response = await HttpClient.post(path, body, {
+      const response = await HttpClient.post(path, formData, {
         Authorization: `Bearer ${accessToken}`,
       });
       return response;
