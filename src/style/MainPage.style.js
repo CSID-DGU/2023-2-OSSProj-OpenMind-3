@@ -59,3 +59,22 @@ export const AddButton = styled.img`
   z-index: 99;
   cursor: pointer;
 `;
+
+export const InviteStudentButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 25px;
+  margin: 0 auto;
+  margin-top: 30px;
+  border-radius: 10px;
+  border: none;
+  background-color: #f59c00;
+  color: white;
+  font-size: 11px;
+  cursor: pointer;
+  &:hover {
+    filter: brightness(80%);
+  }
+`;
