@@ -2,6 +2,7 @@ import * as s from './Login.style.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../api/AxiosC.js';
+import userAPI from '../../api/userAPI.js';
 
 export const Login = () => {
   const [user, setUser] = useState({
@@ -20,32 +21,30 @@ export const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(`${process.env.REACT_APP_BASE_URL}/user/login`, user)
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(200);
-          return response.data;
-        }
-        if (response.status === 400) {
-          console.log(400);
-          console.log(response);
-          const responseData = response.data;
-          const errorMessages = Object.values(responseData.error).join('\n');
-          alert(errorMessages);
-          throw new Error();
-        }
-      })
-      .then((data) => {
-        console.log(data);
-        sessionStorage.setItem('accessToken', data.atk);
-        localStorage.setItem('refreshToken', data.rtk);
-        localStorage.setItem('userName', data.name);
-        localStorage.setItem('userId', user.id);
-        navigate('/select');
-        console.log('이동!');
-      })
-      .catch((error) => {});
+    // axios
+    //   .post(`${process.env.REACT_APP_BASE_URL}/user/login`, user)
+    //   .then((response) => {
+    //     if (response.status === 200) {
+    //       console.log(200);
+    //       return response.data;
+    //     }
+    //     if (response.status === 400) {
+    //       console.log(400);
+    //       console.log(response);
+    //       const responseData = response.data;
+    //       const errorMessages = Object.values(responseData.error).join('\n');
+    //       alert(errorMessages);
+    //       throw new Error();
+    //     }
+    //   })
+    userAPI.loginUser(user).then((data) => {
+      console.log(data);
+      sessionStorage.setItem('accessToken', data.atk);
+      localStorage.setItem('refreshToken', data.rtk);
+      localStorage.setItem('userName', data.name);
+      localStorage.setItem('userId', user.id);
+      navigate('/select');
+    });
   };
 
   return (

@@ -11,6 +11,8 @@ const handleStatusCode = (error) => {
     console.log(error.status);
   } else if (error.status === 400) {
     console.log(error.status);
+  } else if (error.status === 404) {
+    console.log(error.status);
   } else {
     // 그 외에는 rethrow
     throw error;

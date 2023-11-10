@@ -4,8 +4,8 @@ import Calendar from '../components/Calendar';
 import plus from '../assets/icon/Add.svg';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import Modal from 'react-modal';
+import mainpageAPI from '../api/mainpageAPI';
 
 const MainPage = () => {
   const [teamInfo, setTeamInfo] = useState([]);
@@ -16,8 +16,6 @@ const MainPage = () => {
   const [isChecked, setIsChecked] = useState(false);
   const params = useParams();
   const teamId = Number(params.teamId.substring(1));
-  const accessToken = sessionStorage.getItem('accessToken');
-  const lectureId = localStorage.getItem('lectureId');
 
   const formData = {
     membersId: checkedList,
@@ -28,35 +26,19 @@ const MainPage = () => {
   const handleClickAddButton = () => {
     setIsModalOpen((prev) => !prev);
     showStudentList();
+    refreshTeamInfo();
   };
 
   //+버튼 눌렀을 때 나오는 모달에서 사용하는 get메소드
   const showStudentList = () => {
-    axios
-      .get(
-        `${process.env.REACT_APP_BASE_URL}/lecture/${lectureId}/student-list`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(200);
-          return response.data;
-        }
-        if (response.status === 400) {
-          console.log(400);
-          const responseData = response.data;
-          const errorMessages = Object.values(responseData.error).join('\n');
-          alert(errorMessages);
-          throw new Error();
-        }
-      })
-      .then((data) => {
-        setStudentList(data.userList);
-      });
+    mainpageAPI.getStudentList().then((data) => {
+      setStudentList(
+        data.userList
+        // data.userList.filter(
+        //   (item) => item.userId !== teamMembers.forEach((item) => item.userId)
+        // )
+      );
+    });
   };
 
   const checkedItemHandler = (value, isChecked) => {
@@ -77,59 +59,20 @@ const MainPage = () => {
 
   //모달의 초대버튼 눌렀을 때 사용하는 post메소드
   const addTeamMember = () => {
-    console.log(formData);
-    axios
-      .post(`${process.env.REACT_APP_BASE_URL}/team/invitation`, formData, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(200);
-          return response.data;
-        }
-        if (response.status === 400) {
-          console.log(400);
-          console.log(response);
-          const responseData = response.data;
-          const errorMessages = Object.values(responseData.error).join('\n');
-          alert(errorMessages);
-          throw new Error();
-        }
-      })
-      .then((data) => {
-        console.log(data);
-        setIsModalOpen(false);
-        refreshTeamInfo();
-      })
-      .catch((error) => {});
+    mainpageAPI.addTeamMember(formData).then((data) => {
+      console.log(data);
+      setIsModalOpen(false);
+      refreshTeamInfo();
+    });
+    refreshTeamInfo();
   };
 
   const refreshTeamInfo = () => {
-    axios
-      .get(`${process.env.REACT_APP_BASE_URL}/team/${teamId}/members`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(200);
-          return response.data;
-        }
-        if (response.status === 400) {
-          console.log(400);
-          const responseData = response.data;
-          const errorMessages = Object.values(responseData.error).join('\n');
-          alert(errorMessages);
-          throw new Error();
-        }
-      })
-      .then((data) => {
-        setTeamInfo(data);
-        setTeamMembers(data.userResponses);
-      });
+    mainpageAPI.getTeamInfo(params).then((data) => {
+      console.log(data);
+      setTeamInfo(data);
+      setTeamMembers(data.userResponses);
+    });
   };
   //모달 style
   const StudentListModalStyle = {
@@ -259,7 +202,7 @@ const MainPage = () => {
                 {teamMembers &&
                   teamMembers.map((item, index) => (
                     <tr
-                      key={`teamMember_${index + 1}`}
+                      key={`teamMember_${index}`}
                       style={{ textAlign: 'center' }}
                     >
                       <th scope='row'>{index + 1}</th>

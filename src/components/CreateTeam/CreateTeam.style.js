@@ -4,18 +4,17 @@ import { Link } from 'react-router-dom';
 export const Text = styled.p`
   width: 100%;
   height: 25px;
-  margin: 0 0 10px 0;
+  margin: -20px 0 10px 0;
 `;
 
 export const TeamCreateButton = styled.button`
   width: 70px;
   height: 30px;
-  margin: 0 auto;
   border-radius: 10px;
   background-color: #f59c00;
   border: none;
   color: white;
-  margin-top: 5px;
+  margin-top: 15px;
   font-size: 14px;
   &:hover {
     cursor: pointer;
@@ -91,6 +90,7 @@ export const ModalButton = styled.div`
   width: 50px;
   height: 25px;
   margin-top: 30px;
+
   border-radius: 10px;
   background-color: #f59c00;
   color: white;
