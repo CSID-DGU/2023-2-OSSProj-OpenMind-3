@@ -23,7 +23,10 @@ public class EventService {
     @Transactional
     public EventResponseDto addEvent(EventRequestDto eventRequestDto) {
         Event event = eventRequestDto.toEntity();
-        Event savedEvent = eventRepository.save(event);;
+        if (event.getStartDate().isAfter(event.getEndDate())) {
+            throw new IllegalArgumentException("startDate 가 endDate 보다 늦습니다.");
+        }
+        Event savedEvent = eventRepository.save(event);
         teamRepository.findById(eventRequestDto.getTeamId()).ifPresent(savedEvent::setTeam);
         return getResponseEventDto(savedEvent);
     }
