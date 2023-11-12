@@ -4,10 +4,10 @@ import com.ossprac.openmind.calendar.dto.EventRequestDto;
 import com.ossprac.openmind.calendar.dto.EventResponseDto;
 import com.ossprac.openmind.calendar.entity.Event;
 import com.ossprac.openmind.calendar.repository.EventRepository;
+import com.ossprac.openmind.team.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,46 +17,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class EventService {
 
     @Autowired
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
+    private final TeamRepository teamRepository;
 
     @Transactional
-    public ResponseEntity<?> addEvent(EventRequestDto eventRequestDto) {
-        try {
-            Event event = eventRequestDto.toEntity();
-            log.info("event : {}", event);
-            Event savedEvent;
-
-            try {
-                savedEvent = eventRepository.save(event);
-            } catch (Exception e) {
-                log.error("error : {}", e.getMessage());
-                return ResponseEntity.badRequest().body(e.getMessage());
-            }
-            EventResponseDto response = getResponseEventDto(savedEvent);
-            return ResponseEntity.ok().body(response);
-        }
-        catch (Exception e) {
-            log.error("error : {}", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public EventResponseDto addEvent(EventRequestDto eventRequestDto) {
+        Event event = eventRequestDto.toEntity();
+        Event savedEvent = eventRepository.save(event);;
+        teamRepository.findById(eventRequestDto.getTeamId()).ifPresent(savedEvent::setTeam);
+        return getResponseEventDto(savedEvent);
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> getEvent(Long eventId) {
-        try {
-            Event event = eventRepository.findById(eventId).orElse(null);
-            EventResponseDto response = null;
-            if (event != null) {
-                response = getResponseEventDto(event);
-            }
-            return ResponseEntity.ok().body(response);
-        } catch (Exception e) {
-            log.error("error : {}", e.getMessage());
-            return null;
-        }
+    public EventResponseDto getEvent(Long eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow();
+        return getResponseEventDto(event);
     }
 
-    private static EventResponseDto getResponseEventDto(Event savedEvent) {
+    private EventResponseDto getResponseEventDto(Event savedEvent) {
         return EventResponseDto.builder()
                 .id(savedEvent.getId())
                 .title(savedEvent.getTitle())

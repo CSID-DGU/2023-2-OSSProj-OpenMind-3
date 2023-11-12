@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class EventRequestDto {
 
+    private Long teamId;
     private String title;
     private String description;
     private String startDate;
