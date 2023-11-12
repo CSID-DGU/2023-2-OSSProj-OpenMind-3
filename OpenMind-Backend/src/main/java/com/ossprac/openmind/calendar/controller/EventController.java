@@ -43,4 +43,11 @@ public class EventController {
     public ResponseEntity<EventResponseDto> updateEvent(@PathVariable Long eventId, @RequestBody EventUpdateRequestDto requestDto) {
         return ResponseEntity.ok(eventService.updateEvent(eventId, requestDto));
     }
+
+    @ApiOperation("일정 삭제")
+    @DeleteMapping(value = "/{eventId}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId) {
+        eventService.deleteEvent(eventId);
+        return ResponseEntity.ok().build();
+    }
 }

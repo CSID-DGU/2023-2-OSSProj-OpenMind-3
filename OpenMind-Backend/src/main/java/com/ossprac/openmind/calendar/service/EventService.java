@@ -52,6 +52,18 @@ public class EventService {
         return eventResponseDtoList;
     }
 
+    public EventResponseDto updateEvent(Long eventId, EventUpdateRequestDto requestDto) {
+        Event event = eventRepository.findById(eventId).orElseThrow();
+        event.update(requestDto);
+        Event savedEvent = eventRepository.save(event);
+        return getResponseEventDto(savedEvent);
+    }
+
+    public void deleteEvent(Long eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow();
+        eventRepository.delete(event);
+    }
+
     private EventResponseDto getResponseEventDto(Event savedEvent) {
         return EventResponseDto.builder()
                 .id(savedEvent.getId())
@@ -60,12 +72,5 @@ public class EventService {
                 .startDate(savedEvent.getStartDate())
                 .endDate(savedEvent.getEndDate())
                 .build();
-    }
-
-    public EventResponseDto updateEvent(Long eventId, EventUpdateRequestDto requestDto) {
-        Event event = eventRepository.findById(eventId).orElseThrow();
-        event.update(requestDto);
-        Event savedEvent = eventRepository.save(event);
-        return getResponseEventDto(savedEvent);
     }
 }
