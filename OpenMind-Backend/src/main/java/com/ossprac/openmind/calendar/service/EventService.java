@@ -2,6 +2,7 @@ package com.ossprac.openmind.calendar.service;
 
 import com.ossprac.openmind.calendar.dto.EventRequestDto;
 import com.ossprac.openmind.calendar.dto.EventResponseDto;
+import com.ossprac.openmind.calendar.dto.EventUpdateRequestDto;
 import com.ossprac.openmind.calendar.entity.Event;
 import com.ossprac.openmind.calendar.repository.EventRepository;
 import com.ossprac.openmind.team.repository.TeamRepository;
@@ -10,6 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -37,6 +42,16 @@ public class EventService {
         return getResponseEventDto(event);
     }
 
+    // team id 로 event 리스트 조회
+    @Transactional(readOnly = true)
+    public List<EventResponseDto> getEventListByTeamId(Long teamId) {
+        List<Event> eventList = eventRepository.findAllByTeamId(teamId);
+        List<EventResponseDto> eventResponseDtoList = eventList.stream()
+                .map(this::getResponseEventDto)
+                .collect(Collectors.toList());
+        return eventResponseDtoList;
+    }
+
     private EventResponseDto getResponseEventDto(Event savedEvent) {
         return EventResponseDto.builder()
                 .id(savedEvent.getId())
@@ -45,5 +60,12 @@ public class EventService {
                 .startDate(savedEvent.getStartDate())
                 .endDate(savedEvent.getEndDate())
                 .build();
+    }
+
+    public EventResponseDto updateEvent(Long eventId, EventUpdateRequestDto requestDto) {
+        Event event = eventRepository.findById(eventId).orElseThrow();
+        event.update(requestDto);
+        Event savedEvent = eventRepository.save(event);
+        return getResponseEventDto(savedEvent);
     }
 }
