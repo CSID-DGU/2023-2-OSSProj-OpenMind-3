@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Builder
@@ -24,8 +24,8 @@ public class EventRequestDto {
         return Event.builder()
                 .title(title)
                 .description(description)
-                .startDate(LocalDateTime.parse(startDate))
-                .endDate(LocalDateTime.parse(endDate))
+                .startDate(LocalDate.parse(startDate))
+                .endDate(LocalDate.parse(endDate))
                 .build();
     }
 }
