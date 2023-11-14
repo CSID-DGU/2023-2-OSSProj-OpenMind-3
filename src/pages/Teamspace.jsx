@@ -23,7 +23,7 @@ const TeamSpace = () => {
         <form className='d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search'>
           <div className='input-group'>
             <div className='sidebar-brand d-flex align-items-center justify-content-center'>
-              <a href={'/teamspace/main'}>
+              <a href={`/teamspace/main/${teamId}`}>
                 <img
                   width={160}
                   height={28}

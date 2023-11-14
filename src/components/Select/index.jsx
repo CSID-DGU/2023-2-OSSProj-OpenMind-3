@@ -7,10 +7,14 @@ export const Select = () => {
 
   const userName = localStorage.getItem('userName');
 
-  useEffect(() => {
+  const getLectureList = () => {
     lectureAPI.getLectureList().then((data) => {
       setLectures(data.lectureList);
     });
+  };
+
+  useEffect(() => {
+    getLectureList();
   }, []);
 
   return (
