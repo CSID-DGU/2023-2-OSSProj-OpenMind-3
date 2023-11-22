@@ -52,7 +52,7 @@ public class TeamService {
 		userTeamRepository.save(new UserTeam(team, user));
 	}
 
-	public void inviteMember(TeamInvitationRequest request) {
-		userTeamRepository.saveAll(teamEntityMapper.toUserTeamEntity(request));
+	public List<UserTeam> inviteMember(TeamInvitationRequest request) {
+		return userTeamRepository.saveAll(teamEntityMapper.toUserTeamEntity(request));
 	}
 }
