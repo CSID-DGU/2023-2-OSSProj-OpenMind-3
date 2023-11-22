@@ -1,7 +1,6 @@
 package com.ossprac.openmind.team.entity;
 
 import com.ossprac.openmind.lecture.entity.DaysOfWeek;
-import com.ossprac.openmind.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,11 +11,11 @@ import java.time.LocalTime;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "team_time")
-public class TeamTime {
+@Table(name = "team_schedule")
+public class TeamSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "team_time_id")
+    @Column(name = "team_schedule_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
@@ -31,15 +30,15 @@ public class TeamTime {
     private UserTeam userTeam;
 
     @Builder
-    private TeamTime(DaysOfWeek daysOfWeek, LocalTime startTime, LocalTime endTime, UserTeam userTeam) {
+    private TeamSchedule(DaysOfWeek daysOfWeek, LocalTime startTime, LocalTime endTime, UserTeam userTeam) {
         this.daysOfWeek = daysOfWeek;
         this.startTime = startTime;
         this.endTime = endTime;
         this.userTeam = userTeam;
     }
 
-    public static TeamTime of(DaysOfWeek daysOfWeek, LocalTime startTime, LocalTime endTime, UserTeam userTeam){
-        return TeamTime.builder()
+    public static TeamSchedule of(DaysOfWeek daysOfWeek, LocalTime startTime, LocalTime endTime, UserTeam userTeam){
+        return TeamSchedule.builder()
                 .daysOfWeek(daysOfWeek)
                 .startTime(startTime)
                 .endTime(endTime)

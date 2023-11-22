@@ -1,7 +1,7 @@
 package com.ossprac.openmind.team.controller;
 
 import com.ossprac.openmind.team.entity.UserTeam;
-import com.ossprac.openmind.team.service.TeamTimeService;
+import com.ossprac.openmind.team.service.TeamScheduleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +14,6 @@ import com.ossprac.openmind.team.dto.req.TeamCreateRequest;
 import com.ossprac.openmind.team.dto.req.TeamInvitationRequest;
 import com.ossprac.openmind.team.dto.res.TeamCreateResponse;
 import com.ossprac.openmind.team.dto.res.TeamMemberResponse;
-import com.ossprac.openmind.team.dto.res.TeamResponses;
 import com.ossprac.openmind.team.service.TeamService;
 
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +26,7 @@ import java.util.List;
 @RequestMapping("/team")
 public class TeamController {
 	private final TeamService teamService;
-	private final TeamTimeService teamTimeService;
+	private final TeamScheduleService teamScheduleService;
 
 	@ApiOperation("팀생성 API")
 	@PostMapping
@@ -40,7 +39,7 @@ public class TeamController {
 	@PostMapping("/invitation")
 	public ResponseEntity<String> inviteMember(@RequestBody TeamInvitationRequest request) {
 		List<UserTeam> userTeams = teamService.inviteMember(request);
-		teamTimeService.setPersonalLectureTime(userTeams);
+		teamScheduleService.setPersonalLectureTime(userTeams);
 		return ResponseEntity.ok("success");
 	}
 
