@@ -7,9 +7,9 @@ import java.util.List;
 @Getter
 public class PersonalScheduleResponse {
 
-    private List<TeamScheduleResponse> teamTimeRespons;
+    private List<TeamScheduleResponse> teamScheduleResponses;
 
-    public PersonalScheduleResponse(List<TeamScheduleResponse> teamTimeRespons) {
-        this.teamTimeRespons = teamTimeRespons;
+    public PersonalScheduleResponse(List<TeamScheduleResponse> teamScheduleResponses) {
+        this.teamScheduleResponses = teamScheduleResponses;
     }
 }

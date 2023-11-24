@@ -39,7 +39,7 @@ public class TeamController {
 	@PostMapping("/invitation")
 	public ResponseEntity<String> inviteMember(@RequestBody TeamInvitationRequest request) {
 		List<UserTeam> userTeams = teamService.inviteMember(request);
-		teamScheduleService.setPersonalLectureTime(userTeams);
+		teamScheduleService.setPersonalSchedule(userTeams);
 		return ResponseEntity.ok("success");
 	}
 
