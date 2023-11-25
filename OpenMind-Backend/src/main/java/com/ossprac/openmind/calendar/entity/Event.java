@@ -1,5 +1,6 @@
 package com.ossprac.openmind.calendar.entity;
 
+import com.ossprac.openmind.calendar.dto.EventUpdateRequestDto;
 import com.ossprac.openmind.team.entity.Team;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -7,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -29,13 +30,13 @@ public class Event {
     private String description;
 
     @Column(name = "start_date")
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @Builder
-    public Event(String title, String description, LocalDateTime startDate, LocalDateTime endDate) {
+    public Event(String title, String description, LocalDate startDate, LocalDate endDate) {
         this.title = title;
         this.description = description;
         this.startDate = startDate;
@@ -47,19 +48,18 @@ public class Event {
         this.team = team;
     }
 
-    public void updateEventTitle(String title) {
-        this.title = title;
-    }
-
-    public void updateEventDescription(String description) {
-        this.description = description;
-    }
-
-    public void updateEventStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
-    public void updateEventEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
+    public void update(EventUpdateRequestDto requestDto) {
+        if (requestDto.getTitle() != null) {
+            this.title = requestDto.getTitle();
+        }
+        if (requestDto.getDescription() != null) {
+            this.description = requestDto.getDescription();
+        }
+        if (requestDto.getStartDate() != null) {
+            this.startDate = LocalDate.parse(requestDto.getStartDate());
+        }
+        if (requestDto.getEndDate() != null) {
+            this.endDate = LocalDate.parse(requestDto.getEndDate());
+        }
     }
 }
