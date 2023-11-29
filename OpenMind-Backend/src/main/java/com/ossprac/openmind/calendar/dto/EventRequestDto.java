@@ -17,15 +17,15 @@ public class EventRequestDto {
     private Long teamId;
     private String title;
     private String description;
-    private String startDate;
-    private String endDate;
+    private String start;
+    private String end;
 
     public Event toEntity() {
         return Event.builder()
                 .title(title)
                 .description(description)
-                .startDate(LocalDate.parse(startDate))
-                .endDate(LocalDate.parse(endDate))
+                .start(LocalDate.parse(start))
+                .end(LocalDate.parse(end))
                 .build();
     }
 }
