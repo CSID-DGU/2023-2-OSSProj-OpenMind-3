@@ -30,17 +30,17 @@ public class Event {
     private String description;
 
     @Column(name = "start_date")
-    private LocalDate startDate;
+    private LocalDate start;
 
     @Column(name = "end_date")
-    private LocalDate endDate;
+    private LocalDate end;
 
     @Builder
-    public Event(String title, String description, LocalDate startDate, LocalDate endDate) {
+    public Event(String title, String description, LocalDate start, LocalDate end) {
         this.title = title;
         this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.start = start;
+        this.end = end;
     }
 
     //==연관 관계 편의 메서드 ==//
@@ -55,11 +55,11 @@ public class Event {
         if (requestDto.getDescription() != null) {
             this.description = requestDto.getDescription();
         }
-        if (requestDto.getStartDate() != null) {
-            this.startDate = LocalDate.parse(requestDto.getStartDate());
+        if (requestDto.getStart() != null) {
+            this.start = LocalDate.parse(requestDto.getStart());
         }
-        if (requestDto.getEndDate() != null) {
-            this.endDate = LocalDate.parse(requestDto.getEndDate());
+        if (requestDto.getEnd() != null) {
+            this.end = LocalDate.parse(requestDto.getEnd());
         }
     }
 }

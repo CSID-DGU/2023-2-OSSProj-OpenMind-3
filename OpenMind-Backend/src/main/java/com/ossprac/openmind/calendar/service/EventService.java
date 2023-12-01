@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +27,7 @@ public class EventService {
     @Transactional
     public EventResponseDto addEvent(EventRequestDto eventRequestDto) {
         Event event = eventRequestDto.toEntity();
-        if (event.getStartDate().isAfter(event.getEndDate())) {
+        if (event.getStart().isAfter(event.getEnd())) {
             throw new IllegalArgumentException("startDate 가 endDate 보다 늦습니다.");
         }
         Event savedEvent = eventRepository.save(event);
@@ -42,7 +41,6 @@ public class EventService {
         return getResponseEventDto(event);
     }
 
-    // team id 로 event 리스트 조회
     @Transactional(readOnly = true)
     public List<EventResponseDto> getEventListByTeamId(Long teamId) {
         List<Event> eventList = eventRepository.findAllByTeamId(teamId);
@@ -69,8 +67,8 @@ public class EventService {
                 .id(savedEvent.getId())
                 .title(savedEvent.getTitle())
                 .description(savedEvent.getDescription())
-                .startDate(savedEvent.getStartDate())
-                .endDate(savedEvent.getEndDate())
+                .start(savedEvent.getStart())
+                .end(savedEvent.getEnd())
                 .build();
     }
 }
