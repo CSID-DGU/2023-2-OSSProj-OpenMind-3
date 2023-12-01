@@ -1,5 +1,6 @@
 package com.ossprac.openmind.meetingNote.entity;
 
+import com.ossprac.openmind.global.entity.BaseTimeEntity;
 import com.ossprac.openmind.team.entity.Team;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "meetingNotes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MeetingNote {
+public class MeetingNote extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
