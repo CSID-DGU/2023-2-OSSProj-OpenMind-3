@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TeamScheduleService {
     private final LectureTimeRepository lectureTimeRepository;
-    private final TeamScheduleRepository teamTimeRepository;
+    private final TeamScheduleRepository teamScheduleRepository;
     private final UserTeamRepository userTeamRepository;
     private final TeamRepository teamRepository;
     private final TeamEntityMapper teamEntityMapper;
@@ -42,13 +42,20 @@ public class TeamScheduleService {
         return new PersonalScheduleResponse(teamScheduleResponses);
     }
 
+    public List<TeamScheduleResponse> getTeamSchedule(Long teamId) {
+        Team team = teamRepository.findById(teamId).orElseThrow();
+        List<UserTeam> userTeams = userTeamRepository.findByTeam(team);
+        List<TeamScheduleResponse> teamSchedules = teamScheduleRepository.findAllByUserTeamIn(userTeams);
+        return teamSchedules;
+    }
+
     private void setTeamSchedule(UserTeam userTeam) {
         List<LectureTime> lectureTimes = getPersonalSchedule(userTeam.getUser());
         List<TeamSchedule> teamTimes = lectureTimes.stream()
                 .map(lectureTime -> teamEntityMapper.toTeamScheduleEntity(lectureTime, userTeam))
                 .collect(Collectors.toList());
 
-        teamTimeRepository.saveAll(teamTimes);
+        teamScheduleRepository.saveAll(teamTimes);
     }
 
     private List<LectureTime> getPersonalSchedule(User user) {

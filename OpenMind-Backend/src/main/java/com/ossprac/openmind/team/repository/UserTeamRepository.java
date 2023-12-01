@@ -14,15 +14,17 @@ import com.ossprac.openmind.user.entity.User;
 
 @Repository
 public interface UserTeamRepository extends JpaRepository<UserTeam, Long> {
-	@Query("SELECT u FROM User u "
-		+ "INNER JOIN UserTeam uT ON uT.user = u "
-		+ "WHERE uT.team = :team")
+	@Query("select u from User u "
+		+ "inner join UserTeam uT on uT.user = u "
+		+ "where uT.team = :team")
 	List<User> findAllByTeam(@Param("team") Team team);
 
 	UserTeam findByTeamAndUser(Team team, User user);
 
-	@Query("SELECT new com.ossprac.openmind.team.dto.res.TeamScheduleResponse(tt.daysOfWeek, tt.startTime, tt.endTime) " +
-			"FROM TeamSchedule tt " +
-			"WHERE tt.userTeam = :userTeam ")
+	@Query("select new com.ossprac.openmind.team.dto.res.TeamScheduleResponse(tt.daysOfWeek, tt.startTime, tt.endTime) " +
+			"from TeamSchedule tt " +
+			"where tt.userTeam = :userTeam ")
 	List<TeamScheduleResponse> findAllByUserTeam(UserTeam userTeam);
+
+    List<UserTeam> findByTeam(Team team);
 }
