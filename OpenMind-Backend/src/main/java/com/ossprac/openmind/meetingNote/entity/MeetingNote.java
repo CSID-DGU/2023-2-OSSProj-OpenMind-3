@@ -1,6 +1,8 @@
 package com.ossprac.openmind.meetingNote.entity;
 
 import com.ossprac.openmind.global.entity.BaseTimeEntity;
+import com.ossprac.openmind.meetingNote.dto.MeetingNoteRequestDto;
+import com.ossprac.openmind.meetingNote.dto.MeetingNoteUpdateRequestDto;
 import com.ossprac.openmind.team.entity.Team;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,8 +31,14 @@ public class MeetingNote extends BaseTimeEntity {
     private String content;
 
     @Builder
-    public MeetingNote(String title, String content) {
-        this.title = title;
-        this.content = content;
+    public MeetingNote(MeetingNoteRequestDto requestDto, Team team) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.team = team;
+    }
+
+    public void update(MeetingNoteUpdateRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
     }
 }
