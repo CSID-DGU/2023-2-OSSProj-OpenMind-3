@@ -8,15 +8,26 @@ import { useEffect, useState } from 'react';
 
 const Calendar = ({ teamId, setIsAddEventModalOpen, event, setEvent }) => {
   const [eventList, setEventList] = useState([
-    { id: '', title: '', description: '', start: '', end: '' },
+    {
+      id: '',
+      title: '',
+      description: '',
+      start: '',
+      end: '',
+      color: '#f59c00',
+    },
   ]);
   const [updatedEvent, setUpdatedEvent] = useState({});
   const getTeamEventList = () => {
     mainpageAPI.getTeamEventList(teamId).then((data) => {
-      setEventList(...data);
+      console.log(`getTeamEventList: ${data}`);
+      setEventList(data);
     });
   };
 
+  // const addEvent = () => {
+  //   calendar.addEvent();
+  // };
   const deleteEvent = () => {
     mainpageAPI.deleteEvent(eventList.id).then((data) => console.log(data));
   };
@@ -55,8 +66,8 @@ const Calendar = ({ teamId, setIsAddEventModalOpen, event, setEvent }) => {
             //나중에 수정
             setEvent({
               title: '',
-              startDate: e.dateStr,
-              endDate: e.dateStr,
+              start: e.dateStr,
+              end: e.dateStr,
               description: '',
               teamId: null,
             });

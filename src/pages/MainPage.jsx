@@ -19,8 +19,8 @@ const MainPage = () => {
 
   const [event, setEvent] = useState({
     title: '',
-    startDate: '',
-    endDate: '',
+    start: '',
+    end: '',
     description: '',
     teamId: null,
   });
@@ -165,8 +165,8 @@ const MainPage = () => {
   const resetEventValue = () => {
     setEvent({
       title: '',
-      startDate: [],
-      endDate: [],
+      start: '',
+      end: '',
       description: '',
       teamId: null,
     });
