@@ -14,11 +14,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
-	@Query("SELECT t FROM Team t "
-		+ "INNER JOIN UserTeam ut ON t.id = ut.team.id "
-		+ "WHERE t.lecture = :lecture "
-		+ "AND ut.user = :user "
-		+ "AND ut.accepted = true ")
+	@Query("select t from Team t "
+		+ "inner join UserTeam ut on t.id = ut.team.id "
+		+ "where t.lecture = :lecture "
+		+ "and ut.user = :user "
+		+ "and ut.accepted = true ")
 	List<Team> findTeamsByUser(@Param("lecture") Lecture lecture, @Param("user") User user);
 }
 
