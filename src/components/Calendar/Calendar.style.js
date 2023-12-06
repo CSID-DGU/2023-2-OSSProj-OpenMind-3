@@ -34,23 +34,35 @@ export const FullCalendarContainer = styled.div`
 
   // toolbar 버튼
   .fc .fc-button-primary {
-    background-color: transparent;
+    background: #f59c00;
     border: none;
+    outline: none;
 
     span {
       font-weight: 500;
       font-size: 28px;
     }
+    .active {
+      background: #f59c00;
+      outline: none;
+      border: 1px solid #f59c00;
+    }
+  }
 
+  .fc .fc-customButton-button {
+    background-color: #f59c00;
     :hover {
-      background-color: transparent;
+      outline: none;
+    }
+    :active {
+      background: #f59c00;
+      outline: none;
     }
   }
   // 요일 부분
   .fc-theme-standard th {
     height: 25px;
     padding-top: 3px;
-    /* background: #e5edff; */
     border: 1px solid #dddee0;
     font-weight: 500;
     font-size: 16px;

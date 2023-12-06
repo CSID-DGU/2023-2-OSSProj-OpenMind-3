@@ -122,6 +122,7 @@ export const AddButton = styled.img`
   width: 20px;
   height: 20px;
   z-index: 99;
+  outline: none;
   cursor: pointer;
 `;
 
@@ -138,8 +139,13 @@ export const Button = styled.button`
   background-color: #f59c00;
   color: white;
   font-size: 16px;
+  outline: none;
   cursor: pointer;
   &:hover {
     filter: brightness(80%);
+  }
+
+  &:active {
+    outline: none;
   }
 `;

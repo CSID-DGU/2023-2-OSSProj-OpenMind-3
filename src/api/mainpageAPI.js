@@ -68,6 +68,21 @@ const mainpageAPI = {
       return null;
     }
   },
+  getEvent: async (teamId) => {
+    try {
+      const path = `${process.env.REACT_APP_BASE_URL}/api/events/${teamId}`;
+      const response = await HttpClient.get(
+        path,
+        {},
+        {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      );
+      return response;
+    } catch (e) {
+      return null;
+    }
+  },
   deleteEvent: async (eventId) => {
     try {
       const path = `${process.env.REACT_APP_BASE_URL}/api/events/${eventId}}`;

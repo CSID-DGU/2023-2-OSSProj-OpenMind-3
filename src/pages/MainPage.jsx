@@ -6,12 +6,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Modal from 'react-modal';
 import mainpageAPI from '../api/mainpageAPI';
+import EventModal from '../components/EventModal';
 
 const MainPage = () => {
   const [teamInfo, setTeamInfo] = useState([]);
   const [teamMembers, setTeamMembers] = useState();
   const [isStudentListModalOpen, setIsStudentListModalOpen] = useState(false);
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false);
+  const [isEventModalOpen, setIsEventModalOpen] = useState(false);
 
   const [studentList, setStudentList] = useState([]);
   const [checkedList, setCheckedList] = useState([]);
@@ -24,6 +26,17 @@ const MainPage = () => {
     description: '',
     teamId: null,
   });
+  const [eventList, setEventList] = useState([
+    {
+      id: '',
+      title: '',
+      description: '',
+      start: '',
+      end: '',
+    },
+  ]);
+
+  const [selectedEventId, setSelectedEventId] = useState('');
 
   const params = useParams();
   const teamId = Number(params.teamId.substring(1));
@@ -95,6 +108,13 @@ const MainPage = () => {
       console.log(data);
     });
   };
+
+  const getTeamEventList = () => {
+    mainpageAPI.getTeamEventList(teamId).then((data) => {
+      console.log(`getTeamEventList: ${data}`);
+      setEventList(data);
+    });
+  };
   //모달 style
   const StudentListModalStyle = {
     overlay: {
@@ -149,6 +169,32 @@ const MainPage = () => {
     },
   };
 
+  const ShowEventModalStyle = {
+    overlay: {
+      backgroundColor: ' rgba(0, 0, 0, 0.4)',
+      width: '100%',
+      height: '100vh',
+      zIndex: '10',
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      zIndex: '9999',
+    },
+    content: {
+      width: '360px',
+      height: '430px',
+      zIndex: '150',
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      borderRadius: '10px',
+      boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.25)',
+      backgroundColor: 'white',
+      overflow: 'auto',
+    },
+  };
+
   const handleChange = (e) => {
     console.log('지금 startDate', event.startDate);
     console.log('지금 endDate', event.endDate);
@@ -174,36 +220,47 @@ const MainPage = () => {
 
   const handleAddEvent = () => {
     //빈값입력시 오류
-    if (event.title === '' || event.startDate === '' || event.endDate === '') {
+    if (event.title === '' || event.start === '' || event.end === '') {
       alert('입력하지 않은 값이 있습니다.');
       resetEventValue();
 
       //끝나는 날짜가 시작하는 날짜보다 값이 크면 안됨
-    } else if (new Date(event.startDate) > new Date(event.endDate)) {
+    } else if (new Date(event.start) > new Date(event.end)) {
       alert('시간을 확인해주세요.');
       resetEventValue();
     } else {
       // 이벤트 추가
       addEvent();
-      setIsAddEventModalOpen(false);
       resetEventValue();
+      setIsAddEventModalOpen(false);
+      getTeamEventList();
     }
+  };
+
+  const handleClickEvent = () => {
+    setIsEventModalOpen((prev) => !prev);
   };
 
   useEffect(() => {
     refreshTeamInfo();
-    console.log(typeof new Date().toISOString().slice(0, 10));
-    console.log(typeof event.startDate);
   }, [event]);
 
   return (
     <s.Wrapper>
       <s.LeftContainer>
         <Calendar
-          teamId={teamId}
+          // teamId={teamId}
           setIsAddEventModalOpen={setIsAddEventModalOpen}
-          event={event}
-          setEvent={setEvent}
+          isAddEventModalOpen={isAddEventModalOpen}
+          // event={event}
+          // setEvent={setEvent}
+          // isEventModalOpen={isEventModalOpen}
+          // setIsEventModalOpen={setIsEventModalOpen}
+          handleClickEvent={handleClickEvent}
+          // selectedEventId={selectedEventId}
+          setSelectedEventId={setSelectedEventId}
+          getTeamEventList={getTeamEventList}
+          eventList={eventList}
         />
         <Modal
           isOpen={isAddEventModalOpen}
@@ -213,35 +270,27 @@ const MainPage = () => {
         >
           <s.AddEventModalWrapper>
             <s.EventContainer>
-              <s.InputLabel for='title'>일정 제목</s.InputLabel>
+              <s.InputLabel htmlFor='title'>일정 제목</s.InputLabel>
               <s.EventTitle type='text' name='title' onChange={handleChange} />
             </s.EventContainer>
             <s.EventDateContainer>
               <s.EventDateWrapper>
                 <s.InputLabel
-                  for='startDate'
+                  htmlFor='startDate'
                   onChange={handleChange}
-                  defaultValue={
-                    event.startDate !== '' && event.startDate
-                    // new Date('2023-11-23')
-                  }
-                  key={event.startDate}
+                  // defaultValue={
+                  //   event.startDate !== '' && event.startDate
+                  // new Date('2023-11-23')
+                  // }
+                  // key={event.startDate}
                 >
                   시작 날짜
                 </s.InputLabel>
-                <s.EventDate
-                  type='date'
-                  name='startDate'
-                  onChange={handleChange}
-                />
+                <s.EventDate type='date' name='start' onChange={handleChange} />
               </s.EventDateWrapper>
               <s.EventDateWrapper>
-                <s.InputLabel for='endDate'>종료 날짜</s.InputLabel>
-                <s.EventDate
-                  type='date'
-                  name='endDate'
-                  onChange={handleChange}
-                />
+                <s.InputLabel htmlFor='endDate'>종료 날짜</s.InputLabel>
+                <s.EventDate type='date' name='end' onChange={handleChange} />
               </s.EventDateWrapper>
             </s.EventDateContainer>
             <s.EventContainer>
@@ -254,6 +303,17 @@ const MainPage = () => {
             </s.EventContainer>
             <s.Button onClick={handleAddEvent}>추가</s.Button>
           </s.AddEventModalWrapper>
+        </Modal>
+        <Modal
+          isOpen={isEventModalOpen}
+          style={ShowEventModalStyle}
+          onRequestClose={handleClickEvent} // 오버레이나 esc를 누르면 핸들러 동작
+          ariaHideApp={false}
+        >
+          <EventModal
+            selectedEventId={selectedEventId}
+            getTeamEventList={getTeamEventList}
+          />
         </Modal>
       </s.LeftContainer>
       <s.RightContainer>
