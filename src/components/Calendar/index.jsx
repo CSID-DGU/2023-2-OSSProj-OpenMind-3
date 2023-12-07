@@ -12,6 +12,8 @@ import AddEventModal from '../AddEventModal';
 const Calendar = ({ teamId }) => {
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
+  const [clickedDate, setClickedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState([]);
   const [event, setEvent] = useState({
     title: '',
     start: '',
@@ -124,15 +126,28 @@ const Calendar = ({ teamId }) => {
               },
             }}
             // dateClick={function (e) {
-            //나중에 수정
-            // setEvent({
-            //   title: '',
-            //   start: e.dateStr,
-            //   end: e.dateStr,
-            //   description: '',
-            //   teamId: null,
-            // });
+            //   setClickedDate(e.dateStr);
+            //   if (window.confirm(`${e.dateStr}에 일정을 추가하시겠습니까?`))
+            //     setIsAddEventModalOpen(true);
             // }}
+            select={function (e) {
+              //endStr 날짜 변환해주는 함수
+              let date = new Date(e.endStr);
+              let endString = new Date(date.setDate(date.getDate() - 1))
+                .toISOString()
+                .substring(0, 10);
+
+              //selectedDate start,end 설정
+              setSelectedDate([e.startStr, endString]);
+
+              //해당 일정에 날짜 추가
+              e.startStr === endString
+                ? window.confirm(`${e.startStr}에 일정을 추가하시겠습니까?`) &&
+                  setIsAddEventModalOpen(true)
+                : window.confirm(
+                    `${e.startStr}-${endString}에 일정을 추가하시겠습니까?`
+                  ) && setIsAddEventModalOpen(true);
+            }}
             events={eventList}
             eventColor='#f59c00'
             eventClick={(e) => {
@@ -154,6 +169,8 @@ const Calendar = ({ teamId }) => {
           teamId={teamId}
           setIsAddEventModalOpen={setIsAddEventModalOpen}
           getTeamEventList={getTeamEventList}
+          clickedDate={clickedDate}
+          selectedDate={selectedDate}
         />
       </Modal>
       <Modal
