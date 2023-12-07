@@ -85,14 +85,10 @@ const mainpageAPI = {
   },
   deleteEvent: async (eventId) => {
     try {
-      const path = `${process.env.REACT_APP_BASE_URL}/api/events/${eventId}}`;
-      const response = await HttpClient.delete(
-        path,
-        {},
-        {
-          Authorization: `Bearer ${accessToken}`,
-        }
-      );
+      const path = `${process.env.REACT_APP_BASE_URL}/api/events/${eventId}`;
+      const response = await HttpClient.delete(path, {
+        Authorization: `Bearer ${accessToken}`,
+      });
       return response;
     } catch (e) {
       return null;
@@ -100,7 +96,7 @@ const mainpageAPI = {
   },
   updateEvent: async (eventId, formData) => {
     try {
-      const path = `${process.env.REACT_APP_BASE_URL}/api/events/${eventId}}`;
+      const path = `${process.env.REACT_APP_BASE_URL}/api/events/${eventId}`;
       const response = await HttpClient.put(path, formData, {
         Authorization: `Bearer ${accessToken}`,
       });

@@ -36,28 +36,46 @@ export const FullCalendarContainer = styled.div`
   .fc .fc-button-primary {
     background: #f59c00;
     border: none;
-    outline: none;
 
     span {
       font-weight: 500;
       font-size: 28px;
     }
-    .active {
-      background: #f59c00;
-      outline: none;
-      border: 1px solid #f59c00;
-    }
+  }
+
+  .fc .fc-button-primary:focus {
+    background-color: transparent;
+    border-color: transparent;
+    outline: none;
+    box-shadow: none;
+  }
+  .fc .fc-button-primary:active {
+    background-color: transparent;
+    border-color: transparent;
+    outline: none;
+    box-shadow: none;
   }
 
   .fc .fc-customButton-button {
-    background-color: #f59c00;
+    background-color: transparent;
+    border: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     :hover {
-      outline: none;
+      outline: 0;
     }
     :active {
       background: #f59c00;
-      outline: none;
+      outline: 0;
     }
+  }
+
+  .fc .fc-customButton-button:active {
+    background: #f59c00;
+    outline: none;
+  }
+  .fc .fc-customButton-button:focus {
+    background: #f59c00;
+    outline: none;
   }
   // 요일 부분
   .fc-theme-standard th {
@@ -68,5 +86,9 @@ export const FullCalendarContainer = styled.div`
     font-size: 16px;
     line-height: 19px;
     color: #7b7b7b;
+  }
+
+  .fc-event {
+    cursor: pointer;
   }
 `;

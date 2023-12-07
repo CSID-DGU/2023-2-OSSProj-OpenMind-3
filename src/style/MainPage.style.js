@@ -15,70 +15,70 @@ export const LeftContainer = styled.div`
   margin-right: 20px;
 `;
 
-export const AddEventModalWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding-top: 5%;
-`;
-
-// export const ModalHeader = styled.div`
+// export const AddEventModalWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
 //   width: 100%;
-//   height: 10%;
-//   text-align: center;
-//   font-size: 25px;
+//   height: 100%;
+//   padding-top: 5%;
 // `;
 
-export const EventContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: fit-content;
-  margin-bottom: 5%;
-`;
-export const EventTitle = styled.input`
-  width: 100%;
-  height: 30px;
+// // export const ModalHeader = styled.div`
+// //   width: 100%;
+// //   height: 10%;
+// //   text-align: center;
+// //   font-size: 25px;
+// // `;
 
-  &:focus {
-    outline: none;
-  }
-`;
+// export const EventContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   width: 100%;
+//   height: fit-content;
+//   margin-bottom: 5%;
+// `;
+// export const EventTitle = styled.input`
+//   width: 100%;
+//   height: 30px;
 
-export const EventDescription = styled.textarea`
-  width: 100%;
-  height: 110px;
+//   &:focus {
+//     outline: none;
+//   }
+// `;
 
-  &:focus {
-    outline: none;
-  }
-`;
+// export const EventDescription = styled.textarea`
+//   width: 100%;
+//   height: 110px;
 
-export const EventDateContainer = styled.div`
-  display: flex;
+//   &:focus {
+//     outline: none;
+//   }
+// `;
 
-  width: 100%;
-  height: fit-content;
-  margin-bottom: 5%;
-`;
+// export const EventDateContainer = styled.div`
+//   display: flex;
 
-export const EventDateWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-`;
-export const InputLabel = styled.label``;
-export const EventDate = styled.input`
-  width: 90%;
-  height: fit-content;
-  text-align: center;
-  &:focus {
-    outline: none;
-  }
-`;
+//   width: 100%;
+//   height: fit-content;
+//   margin-bottom: 5%;
+// `;
+
+// export const EventDateWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   width: 100%;
+//   height: 100%;
+// `;
+// export const InputLabel = styled.label``;
+// export const EventDate = styled.input`
+//   width: 90%;
+//   height: fit-content;
+//   text-align: center;
+//   &:focus {
+//     outline: none;
+//   }
+// `;
 
 export const RightContainer = styled.div`
   width: 35%;

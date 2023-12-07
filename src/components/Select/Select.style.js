@@ -31,6 +31,9 @@ export const SelectList = styled.ul`
   width: 80%;
   height: 100%;
   padding: 0;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const SelectItem = styled.li`
   width: 100%;
