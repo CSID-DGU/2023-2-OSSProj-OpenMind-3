@@ -43,21 +43,21 @@ const ScheduleTable = ({ type }) => {
     <s.Wrapper>
       <s.ScheduleHeader>
         <s.ScheduleText>{title}</s.ScheduleText>
-        {type === 1 && (
+        {type === 1 ? (
           <s.TeamScheduleRefWrapper>
-            <s.TeamScheduleText>0/3 가능</s.TeamScheduleText>
+            <s.TeamScheduleText> 가능</s.TeamScheduleText>
             <s.RefTable>
               <tbody>
                 <s.RefRow>
                   <s.RefCell />
                   <s.RefCell />
-                  <s.RefCell />
-                  <s.RefCell />
                 </s.RefRow>
               </tbody>
             </s.RefTable>
-            <s.TeamScheduleText>3/3 가능</s.TeamScheduleText>
+            <s.TeamScheduleText>불가능</s.TeamScheduleText>
           </s.TeamScheduleRefWrapper>
+        ) : (
+          <s.MyScheduleButton>수정</s.MyScheduleButton>
         )}
       </s.ScheduleHeader>
       <s.Table>
@@ -75,6 +75,7 @@ const ScheduleTable = ({ type }) => {
               <s.TimeCell>{time}</s.TimeCell>
               {days.map((day) => (
                 <s.TimeCell
+                  className='values'
                   key={day}
                   data-day={day}
                   data-time={time}
