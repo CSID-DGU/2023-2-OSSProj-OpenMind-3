@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ossprac.openmind.lecture.entity.LectureTime;
+import com.ossprac.openmind.team.dto.req.TeamScheduleAddRequest;
 import com.ossprac.openmind.team.entity.TeamSchedule;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +39,11 @@ public class TeamEntityMapper {
 
 	public TeamSchedule toTeamScheduleEntity(LectureTime lectureTime, UserTeam userTeam) {
 		return TeamSchedule.of(lectureTime.getDaysOfWeek(), lectureTime.getStartTime(), lectureTime.getEndTime(), userTeam);
+	}
+
+	public TeamSchedule toTeamScheduleEntity(TeamScheduleAddRequest teamScheduleAddRequest, UserTeam userTeam) {
+		return TeamSchedule.of(teamScheduleAddRequest.getDaysOfWeek(), teamScheduleAddRequest.getStartTime(),
+				teamScheduleAddRequest.getEndTime(), userTeam);
 	}
 
 	private List<UserTeam> createUserTeam(Team team, List<Long> membersId) {
