@@ -6,13 +6,13 @@ import lombok.Getter;
 
 @Getter
 public enum DaysOfWeek {
-	MONDAY("월요일"),
-	TUESDAY("화요일"),
-	WEDNESDAY("수요일"),
-	THURSDAY("목요일"),
-	FRIDAY("금요일"),
-	SATURDAY("토요일"),
-	SUNDAY("일요일");
+	Mon("월요일"),
+	Tue("화요일"),
+	Wed("수요일"),
+	Thu("목요일"),
+	Fri("금요일"),
+	Sat("토요일"),
+	Sun("일요일");
 
 	private String value;
 
