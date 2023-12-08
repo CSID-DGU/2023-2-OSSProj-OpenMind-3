@@ -1,8 +1,10 @@
 package com.ossprac.openmind.team.service;
 
+import com.ossprac.openmind.global.error.BaseException;
 import com.ossprac.openmind.global.util.UserUtils;
 import com.ossprac.openmind.lecture.entity.LectureTime;
 import com.ossprac.openmind.lecture.repository.LectureTimeRepository;
+import com.ossprac.openmind.team.dto.req.TeamScheduleAddRequest;
 import com.ossprac.openmind.team.dto.res.PersonalScheduleResponse;
 import com.ossprac.openmind.team.dto.res.TeamScheduleResponse;
 import com.ossprac.openmind.team.entity.Team;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.ossprac.openmind.global.error.ErrorCode.DUPLICATED_SCHEDULE;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +53,18 @@ public class TeamScheduleService {
         return teamSchedules;
     }
 
+    public void addSchedule(TeamScheduleAddRequest teamScheduleAddRequest) {
+        Team team = teamRepository.findById(teamScheduleAddRequest.getTeamId()).orElseThrow();
+        UserTeam userTeam = userTeamRepository.findByTeamAndUser(team, userUtils.getUser());
+
+        if (isDuplicated(teamScheduleAddRequest, userTeam)) {
+            throw new BaseException(DUPLICATED_SCHEDULE);
+        }
+
+        TeamSchedule teamSchedule = teamEntityMapper.toTeamScheduleEntity(teamScheduleAddRequest, userTeam);
+        teamScheduleRepository.save(teamSchedule);
+    }
+
     private void setTeamSchedule(UserTeam userTeam) {
         List<LectureTime> lectureTimes = getPersonalSchedule(userTeam.getUser());
         List<TeamSchedule> teamTimes = lectureTimes.stream()
@@ -60,6 +76,11 @@ public class TeamScheduleService {
 
     private List<LectureTime> getPersonalSchedule(User user) {
         return lectureTimeRepository.findUserLectureTime(user.getId());
+    }
+
+    private boolean isDuplicated(TeamScheduleAddRequest teamScheduleAddRequest, UserTeam userTeam) {
+        return teamScheduleRepository.findByDaysOfWeekAndStartTimeAndEndTimeAndUserTeam(teamScheduleAddRequest.getDaysOfWeek(), teamScheduleAddRequest.getStartTime(), teamScheduleAddRequest.getEndTime(), userTeam)
+                .isPresent();
     }
 
 }
