@@ -51,23 +51,23 @@ export const Icon = styled.img`
   cursor: pointer;
 `;
 
-export const QuillWrapper = styled.div`
-  width: 60vw;
-  height: 75vh;
-`;
+// export const QuillWrapper = styled.div`
+//   width: 60vw;
+//   height: 75vh;
+// `;
 
-export const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 10vh;
-`;
-export const SaveButton = styled.button`
-  width: 100px;
-  height: 30px;
-  margin: 0 auto;
-  border: none;
-  border-radius: 10px;
-  background-color: #f59c00;
-  color: white;
-`;
+// export const ButtonWrapper = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   width: 100%;
+//   height: 10vh;
+// `;
+// export const SaveButton = styled.button`
+//   width: 100px;
+//   height: 30px;
+//   margin: 0 auto;
+//   border: none;
+//   border-radius: 10px;
+//   background-color: #f59c00;
+//   color: white;
+// `;

@@ -21,7 +21,6 @@ const AddEventModal = ({
   const today = `${year}-${month}-${day}`;
 
   const handleChange = (e) => {
-    console.log(selectedDate);
     const { name, value } = e.target;
     setEvent({
       ...event,

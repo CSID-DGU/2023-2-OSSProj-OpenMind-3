@@ -3,9 +3,9 @@ import HttpClient from './HttpClient';
 const accessToken = sessionStorage.getItem('accessToken');
 
 const documentAPI = {
-  getDocumentList: async () => {
+  getDocumentList: async (teamId) => {
     try {
-      const path = `${process.env.REACT_APP_BASE_URL}/api/meetingNotes`;
+      const path = `${process.env.REACT_APP_BASE_URL}/api/meetingNotes/?teamId=${teamId}`;
       const response = await HttpClient.get(
         path,
         {},
@@ -16,9 +16,9 @@ const documentAPI = {
       return null;
     }
   },
-  getDocument: async () => {
+  getDocument: async (meetingNoteId) => {
     try {
-      const path = `${process.env.REACT_APP_BASE_URL}/api/meetingNotes/get`;
+      const path = `${process.env.REACT_APP_BASE_URL}/api/meetingNotes/get/?meetingNoteId=${meetingNoteId}`;
       const response = await HttpClient.get(
         path,
         {},
@@ -51,9 +51,9 @@ const documentAPI = {
       return null;
     }
   },
-  deleteDocument: async () => {
+  deleteDocument: async (meetingNoteId) => {
     try {
-      const path = `${process.env.REACT_APP_BASE_URL}/api/meetingNotes/delete`;
+      const path = `${process.env.REACT_APP_BASE_URL}/api/meetingNotes/delete/?meetingNoteId=${meetingNoteId}`;
       const response = await HttpClient.delete(path, {
         Authorization: `Bearer ${accessToken}`,
       });
