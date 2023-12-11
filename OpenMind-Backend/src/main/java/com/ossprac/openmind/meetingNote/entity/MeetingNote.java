@@ -4,16 +4,16 @@ import com.ossprac.openmind.global.entity.BaseTimeEntity;
 import com.ossprac.openmind.meetingNote.dto.MeetingNoteRequestDto;
 import com.ossprac.openmind.meetingNote.dto.MeetingNoteUpdateRequestDto;
 import com.ossprac.openmind.team.entity.Team;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
+@Builder
 @Getter
 @Entity
 @Table(name = "meetingNotes")
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MeetingNote extends BaseTimeEntity {
 
@@ -30,10 +30,19 @@ public class MeetingNote extends BaseTimeEntity {
 
     private String content;
 
+    private String writer;
+
+    private LocalDate createDate;
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     @Builder
     public MeetingNote(MeetingNoteRequestDto requestDto, Team team) {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
+        this.writer = requestDto.getWriter();
         this.team = team;
     }
 

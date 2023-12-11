@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -28,10 +29,9 @@ public class MeetingNoteService {
 
     public MeetingNoteResponseDto createMeetingNote(MeetingNoteRequestDto requestDto) {
         Team team = teamRepository.findById(requestDto.getTeamId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 팀입니다."));
-        MeetingNote meetingNote = meetingNoteRepository.save(MeetingNote.builder()
-                .requestDto(requestDto)
-                .team(team)
-                .build());
+        MeetingNote meetingNote = requestDto.toEntity();
+        meetingNote.setTeam(team);
+        meetingNoteRepository.save(meetingNote);
         return new MeetingNoteResponseDto(meetingNote);
     }
 
