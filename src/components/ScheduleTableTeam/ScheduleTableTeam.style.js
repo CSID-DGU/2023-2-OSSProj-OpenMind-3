@@ -20,16 +20,11 @@ export const ScheduleText = styled.p`
   font-size: 18px;
 `;
 
-export const ButtonWrapper = styled.div`
-  float: right;
-  display: flex;
-  flex-direction: space-around;
-  width: 100px;
-  height: 20px;
-`;
 export const MyScheduleButton = styled.div`
+  display: block;
+  float: right;
   width: 40px;
-  height: 100%;
+  height: 20px;
   border: none;
   border-radius: 20px;
   background-color: #eee;

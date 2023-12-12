@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import * as s from './ScheduleTable.style';
+import * as s from './ScheduleTableTeam.style';
 import schedulAPI from '../../api/scheduleAPI';
 import { useParams } from 'react-router-dom';
 
-const ScheduleTable = ({ type }) => {
-  const userName = localStorage.getItem('userName');
+const ScheduleTableTeam = () => {
   const params = useParams();
   const teamId = Number(params.teamId.substring(1));
-  const [mySchedule, setMySchedule] = useState([]);
-  const [teamSchedule, setTeamSchedule] = useState([]);
 
-  const title = type === 0 ? `` : '팀 일정';
+  const [teamSchedule, setTeamSchedule] = useState([]);
+  const [clickedCells, setClickedCells] = useState([]);
 
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -25,21 +23,35 @@ const ScheduleTable = ({ type }) => {
     const time = e.currentTarget.getAttribute('data-time');
     const value = `${day},${time}`;
     console.log(value); // "Mon,9:00"
-  };
+    const clickedCell = { day, time };
 
-  const getMySchedule = () => {
-    schedulAPI.getMySchedule(teamId).then((data) => {
-      console.log(data);
-      console.log('개인 :', data.teamScheduleResponses);
-      setMySchedule(data.teamScheduleResponses);
+    setClickedCells((prevClickedCells) => {
+      const isAlreadyClicked = prevClickedCells.some(
+        (cell) => cell.day === day && cell.time === time
+      );
+      if (isAlreadyClicked) {
+        // 이미 클릭된 셀 제거
+        return prevClickedCells.filter(
+          (cell) => cell.day !== day || cell.time !== time
+        );
+      } else {
+        // 새로운 셀 추가
+        return [...prevClickedCells, clickedCell];
+      }
     });
   };
-  // const getTeamSchedule = () => {
-  //   schedulAPI.getTeamSchedule(teamId).then((data) => {
-  //     setTeamSchedule(data);
-  //     console.log('팀 : ', data);
-  //   });
-  // };
+
+  // 셀이 클릭되었는지 확인하는 함수
+  const isCellClicked = (day, time) => {
+    return clickedCells.some((cell) => cell.day === day && cell.time === time);
+  };
+
+  const getTeamSchedule = () => {
+    schedulAPI.getTeamSchedule(teamId).then((data) => {
+      setTeamSchedule(data);
+      console.log('팀 : ', data);
+    });
+  };
 
   // 시간을 분으로 변환하는 함수
   const timeToMinutes = (time) => {
@@ -52,7 +64,7 @@ const ScheduleTable = ({ type }) => {
     const cellStartTime = timeToMinutes(cellTime);
     const cellEndTime = cellStartTime + 30; // 30분 간격 셀
 
-    return mySchedule.some((schedule) => {
+    return teamSchedule.some((schedule) => {
       const start = timeToMinutes(schedule.startTime);
       const end = timeToMinutes(schedule.endTime);
       // 셀의 시작 시간이 일정의 시작 시간 이후이고 셀의 끝 시간이 일정의 끝 시간 이전인 경우 true 반환
@@ -65,17 +77,25 @@ const ScheduleTable = ({ type }) => {
   };
 
   useEffect(() => {
-    getMySchedule();
+    getTeamSchedule();
   }, []);
   return (
     <s.Wrapper>
       <s.ScheduleHeader>
-        <s.ScheduleText>{userName}님의 일정</s.ScheduleText>
+        <s.ScheduleText>팀 일정</s.ScheduleText>
 
-        <s.ButtonWrapper>
-          <s.MyScheduleButton>추가</s.MyScheduleButton>
-          <s.MyScheduleButton>삭제</s.MyScheduleButton>
-        </s.ButtonWrapper>
+        <s.TeamScheduleRefWrapper>
+          <s.TeamScheduleText> 가능</s.TeamScheduleText>
+          <s.RefTable>
+            <tbody>
+              <s.RefRow>
+                <s.RefCell />
+                <s.RefCell />
+              </s.RefRow>
+            </tbody>
+          </s.RefTable>
+          <s.TeamScheduleText>불가능</s.TeamScheduleText>
+        </s.TeamScheduleRefWrapper>
       </s.ScheduleHeader>
       <s.Table>
         <thead>
@@ -100,7 +120,11 @@ const ScheduleTable = ({ type }) => {
                   data-time={time}
                   onClick={onClickTime}
                   style={
-                    isScheduled(day, time) ? { backgroundColor: '#f8cbad' } : {}
+                    isScheduled(day, time)
+                      ? { backgroundColor: '#f8cbad' }
+                      : {} && isCellClicked(day, time)
+                      ? { backgroundColor: '#f8cbad' }
+                      : {}
                   }
                 />
               ))}
@@ -112,4 +136,4 @@ const ScheduleTable = ({ type }) => {
   );
 };
 
-export default ScheduleTable;
+export default ScheduleTableTeam;
