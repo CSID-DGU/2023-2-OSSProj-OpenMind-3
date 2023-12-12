@@ -41,12 +41,10 @@ const MainPage = () => {
   //+버튼 눌렀을 때 나오는 모달에서 사용하는 get메소드
   const showStudentList = () => {
     mainpageAPI.getStudentList().then((data) => {
-      setStudentList(
-        data.userList
-        // data.userList.filter(
-        //   (item) => item.userId !== teamMembers.forEach((item) => item.userId)
-        // )
+      const newStudentList = data.userList.filter(
+        (user) => !teamMembers.some((member) => member.userId === user.userId)
       );
+      setStudentList(newStudentList);
     });
   };
 
