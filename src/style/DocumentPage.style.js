@@ -49,8 +49,12 @@ export const HeaderLabel = styled.p`
 export const AddButton = styled.img`
   width: 20px;
   height: 20px;
-  z-index: 99;
+  z-index: 1000;
   cursor: pointer;
+  &:hover {
+    transform: scale(1.2);
+    fill: red;
+  }
 `;
 
 export const Icon = styled.img`

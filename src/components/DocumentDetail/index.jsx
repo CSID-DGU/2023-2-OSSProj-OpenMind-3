@@ -22,19 +22,21 @@ const DocumentDetail = ({ documentId }) => {
       {document ? (
         <>
           <s.ModalHeader>{document.title}</s.ModalHeader>
-          <p>생성일: {document.createDate}</p>
-          <p>작성자: {document.writer}</p>
-          <div
-            className='view ql-editor' // react-quill css
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(document.content),
-            }}
-          />
+          <s.DateLabel>
+            생성일: {new Date(document.createDate).toLocaleString()}
+          </s.DateLabel>
+          <s.AuthorLabel>작성자: {document.writer}</s.AuthorLabel>
+          <s.ModalBody>
+            <div
+              className='view ql-editor'
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(document.content),
+              }}
+            />
+          </s.ModalBody>
         </>
       ) : (
-        <>
-          <div></div>
-        </>
+        <p>Loading...</p>
       )}
     </s.Wrapper>
   );

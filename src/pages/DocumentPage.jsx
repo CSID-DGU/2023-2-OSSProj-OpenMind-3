@@ -17,13 +17,21 @@ const DocumentPage = () => {
   const teamId = Number(params.teamId.substring(1));
   const [content, setContent] = useState('');
   const [selectedDocumentId, setSelectedDocumentId] = useState();
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleClickAddButton = () => {
     setClickedAddDocument((prev) => !prev);
   };
 
+  const handleClickEdit = (id) => {
+    console.log('수정버튼클릭');
+    setSelectedDocumentId(id);
+    setIsEditing(true);
+    handleClickAddButton();
+  };
+
   ///회의록 리스트
-  const DocumentList = ({ content, setContent }) => {
+  const DocumentList = () => {
     const [documentList, setDocumentList] = useState([]);
     const [isOpenDocumentModal, setIsOpenDocumentModal] = useState(false);
     const userName = localStorage.getItem('userName');
@@ -33,6 +41,21 @@ const DocumentPage = () => {
         console.log(data);
         setDocumentList(data);
       });
+    };
+    const deleteDocument = (id) => {
+      if (window.confirm('정말 삭제하시겠습니까?')) {
+        documentAPI.deleteDocument(id).then((data) => {
+          if (data) {
+            window.alert('성공적으로 삭제했습니다!');
+            // window.location.reload(); // 페이지를 새로고침하는 대신 상태를 업데이트하여 반영
+            setDocumentList((prevList) =>
+              prevList.filter((doc) => doc.id !== id)
+            );
+          } else {
+            window.alert('다시 시도해주세요.');
+          }
+        });
+      }
     };
     const DocumentModalStyle = {
       overlay: {
@@ -101,7 +124,8 @@ const DocumentPage = () => {
                   <tr
                     className={'document_list'}
                     style={{ textAlign: 'center' }}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setSelectedDocumentId(item.id);
                       openDocumentModal();
                       console.log(item.id);
@@ -112,9 +136,24 @@ const DocumentPage = () => {
                     <td>{item.createDate}</td>
                     <td>{item.writer}</td>
                     <td>
-                      <s.Icon src={pen}></s.Icon>
+                      <s.Icon
+                        src={pen}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (window.confirm('회의록을 수정하시겠습니까?')) {
+                            handleClickEdit(item.id);
+                            console.log(item.id);
+                          }
+                        }}
+                      ></s.Icon>
 
-                      <s.Icon src={trash}></s.Icon>
+                      <s.Icon
+                        src={trash}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteDocument(item.id);
+                        }}
+                      ></s.Icon>
                     </td>
                   </tr>
                 ))}
@@ -143,14 +182,26 @@ const DocumentPage = () => {
         {clickedAddDocument ? (
           <s.AddButton src={List} onClick={handleClickAddButton} />
         ) : (
-          <s.AddButton src={plus} onClick={handleClickAddButton} />
+          <s.AddButton
+            src={plus}
+            onClick={() => {
+              handleClickAddButton();
+              setIsEditing(false);
+            }}
+          />
         )}
       </s.DocumentListContainerHeader>
 
       {clickedAddDocument ? (
-        <DocumentQuill content={content} setContent={setContent} />
+        <DocumentQuill
+          content={content}
+          setContent={setContent}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+          selectedDocumentId={selectedDocumentId}
+        />
       ) : (
-        <DocumentList content={content} setContent={setContent} />
+        <DocumentList />
       )}
     </s.Wrapper>
   );
