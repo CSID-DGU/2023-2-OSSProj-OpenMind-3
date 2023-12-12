@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Modal from 'react-modal';
 import mainpageAPI from '../api/mainpageAPI';
+import documentAPI from '../api/documentAPI';
 
 const MainPage = () => {
   const [teamInfo, setTeamInfo] = useState([]);
@@ -15,6 +16,8 @@ const MainPage = () => {
   const [studentList, setStudentList] = useState([]);
   const [checkedList, setCheckedList] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
+
+  const [documentList, setDocumentList] = useState([]);
 
   const params = useParams();
   const teamId = Number(params.teamId.substring(1));
@@ -108,9 +111,16 @@ const MainPage = () => {
       overflow: 'auto',
     },
   };
+  const getDocumentList = () => {
+    documentAPI.getDocumentList(teamId).then((data) => {
+      console.log(data);
+      setDocumentList(data);
+    });
+  };
 
   useEffect(() => {
     refreshTeamInfo();
+    getDocumentList();
   }, []);
 
   return (
@@ -244,21 +254,13 @@ const MainPage = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr style={{ textAlign: 'center' }}>
-                  <th scope='row'>1</th>
-                  <td>제안서 PPT 제작</td>
-                  <td>2023.09.23</td>
-                </tr>
-                <tr style={{ textAlign: 'center' }}>
-                  <th scope='row'>2</th>
-                  <td>제안서 발표 준비</td>
-                  <td>2023.09.22</td>
-                </tr>
-                <tr style={{ textAlign: 'center' }}>
-                  <th scope='row'>3</th>
-                  <td>팀플 주제 정하기</td>
-                  <td>2023.09.18</td>
-                </tr>
+                {documentList?.map((item, index) => (
+                  <tr style={{ textAlign: 'center' }}>
+                    <th scope='row'>{index + 1}</th>
+                    <td>{item.title}</td>
+                    <td>{item.createDate}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
