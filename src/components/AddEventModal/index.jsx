@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import mainpageAPI from '../../api/mainpageAPI';
 import * as s from './AddEventModal.style';
 
@@ -11,6 +11,8 @@ const AddEventModal = ({
   setSelectedDate,
 }) => {
   const accessToken = sessionStorage.getItem('accessToken');
+  const startRef = useRef(null);
+  const endRef = useRef(null);
   const addEvent = () => {
     if (accessToken)
       mainpageAPI.addEvent(event).then((data) => {
@@ -22,6 +24,17 @@ const AddEventModal = ({
         }
       });
   };
+  // const customStart = (dateStr) => {
+  //   const Time = ' 00:00:00';
+  //   console.log(dateStr + Time);
+  //   const start = dateStr + Time;
+  //   return start;
+  // };
+  // const customEnd = (dateStr) => {
+  //   const Time = ' 24:00:00';
+  //   const end = dateStr + Time;
+  //   return end;
+  // };
 
   // const date = new Date();
   // const year = date.getFullYear();
@@ -31,13 +44,24 @@ const AddEventModal = ({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    let endValue = endRef.current?.value;
+
+    let date = endValue && new Date(endValue);
+    let endString =
+      date &&
+      new Date(date.setDate(date.getDate() + 1)).toISOString().substring(0, 10);
+
+    console.log(selectedDate);
     setEvent({
       ...event,
+      start: selectedDate.length !== 0 ? selectedDate[0] : event.start,
+      end: selectedDate.length !== 0 ? selectedDate[1] : endString,
+
       teamId: teamId,
-      start: selectedDate.length !== 0 ? selectedDate[0] : value,
-      end: selectedDate.length !== 0 ? selectedDate[2] : value,
       [name]: value,
     });
+    console.log(name, value);
   };
 
   const handleAddEvent = () => {
@@ -67,7 +91,7 @@ const AddEventModal = ({
       </s.EventContainer>
       <s.EventDateContainer>
         <s.EventDateWrapper>
-          <s.InputLabel htmlFor='startDate' onChange={handleChange}>
+          <s.InputLabel htmlFor='start' onChange={handleChange}>
             시작 날짜
           </s.InputLabel>
           <s.EventDate
@@ -75,15 +99,17 @@ const AddEventModal = ({
             name='start'
             defaultValue={selectedDate && selectedDate[0]}
             onChange={handleChange}
+            ref={startRef}
           />
         </s.EventDateWrapper>
         <s.EventDateWrapper>
-          <s.InputLabel htmlFor='endDate'>종료 날짜</s.InputLabel>
+          <s.InputLabel htmlFor='end'>종료 날짜</s.InputLabel>
           <s.EventDate
             type='date'
             name='end'
             defaultValue={selectedDate && selectedDate[1]}
             onChange={handleChange}
+            ref={endRef}
           />
         </s.EventDateWrapper>
       </s.EventDateContainer>

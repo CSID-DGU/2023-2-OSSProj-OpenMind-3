@@ -6,8 +6,9 @@ import { useParams } from 'react-router-dom';
 const ScheduleTableTeam = () => {
   const params = useParams();
   const teamId = Number(params.teamId.substring(1));
-
+  const accessToken = sessionStorage.getItem('accessToken');
   const [teamSchedule, setTeamSchedule] = useState([]);
+
   const [clickedCells, setClickedCells] = useState([]);
 
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -17,34 +18,6 @@ const ScheduleTableTeam = () => {
     times.push(`${hour % 24 === 0 ? '00' : hour}:00`);
     if (hour < 24) times.push(`${hour}:30`);
   }
-
-  const onClickTime = (e) => {
-    const day = e.currentTarget.getAttribute('data-day');
-    const time = e.currentTarget.getAttribute('data-time');
-    const value = `${day},${time}`;
-    console.log(value); // "Mon,9:00"
-    const clickedCell = { day, time };
-
-    setClickedCells((prevClickedCells) => {
-      const isAlreadyClicked = prevClickedCells.some(
-        (cell) => cell.day === day && cell.time === time
-      );
-      if (isAlreadyClicked) {
-        // 이미 클릭된 셀 제거
-        return prevClickedCells.filter(
-          (cell) => cell.day !== day || cell.time !== time
-        );
-      } else {
-        // 새로운 셀 추가
-        return [...prevClickedCells, clickedCell];
-      }
-    });
-  };
-
-  // 셀이 클릭되었는지 확인하는 함수
-  const isCellClicked = (day, time) => {
-    return clickedCells.some((cell) => cell.day === day && cell.time === time);
-  };
 
   const getTeamSchedule = () => {
     schedulAPI.getTeamSchedule(teamId).then((data) => {
@@ -67,7 +40,7 @@ const ScheduleTableTeam = () => {
     return teamSchedule.some((schedule) => {
       const start = timeToMinutes(schedule.startTime);
       const end = timeToMinutes(schedule.endTime);
-      // 셀의 시작 시간이 일정의 시작 시간 이후이고 셀의 끝 시간이 일정의 끝 시간 이전인 경우 true 반환
+      // 셀의 시작 시간이 일정의 시작 시간 이후 또는 같고, 셀의 끝 시간이 일정의 끝 시간 이전 또는 같은 경우 true 반환
       return (
         day === schedule.daysOfWeek &&
         cellStartTime >= start &&
@@ -77,7 +50,7 @@ const ScheduleTableTeam = () => {
   };
 
   useEffect(() => {
-    getTeamSchedule();
+    if (accessToken) getTeamSchedule();
   }, []);
   return (
     <s.Wrapper>
@@ -118,13 +91,12 @@ const ScheduleTableTeam = () => {
                   key={day}
                   data-day={day}
                   data-time={time}
-                  onClick={onClickTime}
+                  // onClick={onClickTime}
                   style={
-                    isScheduled(day, time)
-                      ? { backgroundColor: '#f8cbad' }
-                      : {} && isCellClicked(day, time)
-                      ? { backgroundColor: '#f8cbad' }
-                      : {}
+                    isScheduled(day, time) ? { backgroundColor: '#f8cbad' } : {}
+                    // && isCellClicked(day, time)
+                    // ? { backgroundColor: '#f8cbad' }
+                    // : {}
                   }
                 />
               ))}

@@ -14,26 +14,29 @@ export const ScheduleHeader = styled.div`
   width: 100%;
 `;
 export const ScheduleText = styled.p`
-  width: fit-content;
-  height: 30px;
+  width: 200px;
+  height: 40px;
   color: black;
   font-size: 18px;
 `;
 
 export const ButtonWrapper = styled.div`
-  float: right;
+  width: 120px;
+  height: 40px;
+  margin-left: 150px;
   display: flex;
-  flex-direction: space-around;
-  width: 100px;
-  height: 20px;
+  justify-content: space-around;
 `;
 export const MyScheduleButton = styled.div`
-  width: 40px;
-  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 23px;
   border: none;
   border-radius: 20px;
   background-color: #eee;
-  margin: 3px 0 0 20vw;
+  margin: 3px 0 0 0;
   font-size: 12px;
   text-align: center;
   cursor: pointer;

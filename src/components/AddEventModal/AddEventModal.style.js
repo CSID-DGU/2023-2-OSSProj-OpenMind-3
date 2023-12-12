@@ -26,6 +26,7 @@ export const EventContainer = styled.div`
 export const EventTitle = styled.input`
   width: 100%;
   height: 30px;
+  padding: 2px 5px;
 
   &:focus {
     outline: none;
@@ -35,7 +36,7 @@ export const EventTitle = styled.input`
 export const EventDescription = styled.textarea`
   width: 100%;
   height: 110px;
-
+  padding: 10px;
   &:focus {
     outline: none;
   }

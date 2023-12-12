@@ -3,15 +3,13 @@ import * as s from './ScheduleTable.style';
 import schedulAPI from '../../api/scheduleAPI';
 import { useParams } from 'react-router-dom';
 
-const ScheduleTable = ({ type }) => {
+const ScheduleTable = () => {
   const userName = localStorage.getItem('userName');
   const params = useParams();
   const teamId = Number(params.teamId.substring(1));
   const [mySchedule, setMySchedule] = useState([]);
-  const [teamSchedule, setTeamSchedule] = useState([]);
 
-  const title = type === 0 ? `` : '팀 일정';
-
+  const accessToken = sessionStorage.getItem('accessToken');
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   const times = [];
@@ -29,8 +27,8 @@ const ScheduleTable = ({ type }) => {
 
   const getMySchedule = () => {
     schedulAPI.getMySchedule(teamId).then((data) => {
-      console.log(data);
-      console.log('개인 :', data.teamScheduleResponses);
+      // console.log(data);
+      // console.log('개인 :', data.teamScheduleResponses);
       setMySchedule(data.teamScheduleResponses);
     });
   };
@@ -55,7 +53,7 @@ const ScheduleTable = ({ type }) => {
     return mySchedule.some((schedule) => {
       const start = timeToMinutes(schedule.startTime);
       const end = timeToMinutes(schedule.endTime);
-      // 셀의 시작 시간이 일정의 시작 시간 이후이고 셀의 끝 시간이 일정의 끝 시간 이전인 경우 true 반환
+      // 셀의 시작 시간이 일정의 시작 시간 이후 또는 같고, 셀의 끝 시간이 일정의 끝 시간 이전 또는 같은 경우 true 반환
       return (
         day === schedule.daysOfWeek &&
         cellStartTime >= start &&
@@ -65,7 +63,7 @@ const ScheduleTable = ({ type }) => {
   };
 
   useEffect(() => {
-    getMySchedule();
+    if (accessToken) getMySchedule();
   }, []);
   return (
     <s.Wrapper>
@@ -95,7 +93,7 @@ const ScheduleTable = ({ type }) => {
                   className={`values ${
                     isScheduled(day, time) ? 'scheduled' : ''
                   }`}
-                  key={day}
+                  // key={day}
                   data-day={day}
                   data-time={time}
                   onClick={onClickTime}

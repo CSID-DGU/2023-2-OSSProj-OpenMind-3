@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as s from '../style/SchedulePage.style';
 import ScheduleTable from '../components/ScheduleTable';
 import { useParams } from 'react-router-dom';

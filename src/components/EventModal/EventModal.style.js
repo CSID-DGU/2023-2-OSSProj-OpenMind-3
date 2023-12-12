@@ -17,11 +17,13 @@ export const EventContainer = styled.div`
   margin-bottom: 5%;
 `;
 export const EventTitle = styled.div`
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 30px;
   border: 1px solid black;
   border-radius: 3px;
-  padding: 2px 3px;
+  padding: 2px 5px;
   color: black;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -35,7 +37,7 @@ export const EventTitle = styled.div`
 export const EventDescription = styled.div`
   width: 100%;
   height: 110px;
-  padding: 4px;
+  padding: 5px 10px;
   border: 1px solid black;
   border-radius: 3px;
   color: black;
@@ -101,5 +103,34 @@ export const Button = styled.button`
   cursor: pointer;
   &:hover {
     filter: brightness(80%);
+  }
+`;
+
+export const EventTitleInput = styled.input`
+  width: 100%;
+  height: 30px;
+  padding: 2px 5px;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const EventDateInput = styled.input`
+  width: 90%;
+  height: fit-content;
+  text-align: center;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+`;
+export const EventDescriptionInput = styled.textarea`
+  width: 100%;
+  height: 110px;
+  border: none;
+  &:focus {
+    outline: none;
   }
 `;

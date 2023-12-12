@@ -6,7 +6,6 @@ export const Select = () => {
   const [lectures, setLectures] = useState([]);
 
   const userName = localStorage.getItem('userName');
-  const accessToken = sessionStorage.getItem('accessToken');
 
   const getLectureList = () => {
     lectureAPI.getLectureList().then((data) => {
@@ -14,9 +13,10 @@ export const Select = () => {
     });
   };
 
+  const accessToken = sessionStorage.getItem('accessToken');
   useEffect(() => {
     if (accessToken) getLectureList();
-  }, []);
+  }, [accessToken]);
 
   return (
     <>
