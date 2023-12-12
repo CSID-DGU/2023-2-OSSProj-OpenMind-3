@@ -30,6 +30,7 @@ public class EventService {
         if (event.getStart().isAfter(event.getEnd())) {
             throw new IllegalArgumentException("startDate 가 endDate 보다 늦습니다.");
         }
+        event.setEnd(event.getEnd().plusDays(1));
         Event savedEvent = eventRepository.save(event);
         teamRepository.findById(eventRequestDto.getTeamId()).ifPresent(savedEvent::setTeam);
         return getResponseEventDto(savedEvent);
