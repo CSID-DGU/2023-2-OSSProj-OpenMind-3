@@ -62,4 +62,8 @@ public class Event {
             this.end = LocalDate.parse(requestDto.getEnd());
         }
     }
+
+    public void setEnd(LocalDate end) {
+        this.end = end;
+    }
 }
