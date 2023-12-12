@@ -20,5 +20,6 @@ public interface TeamScheduleRepository extends JpaRepository<TeamSchedule, Long
             "where tt.userTeam in :userTeams ")
     List<TeamScheduleResponse> findAllByUserTeamIn(@Param("userTeams") List<UserTeam> userTeams);
 
+    void deleteByDaysOfWeekAndAndStartTimeAndEndTimeAndUserTeam(DaysOfWeek daysOfWeek, LocalTime startTime, LocalTime endTime, UserTeam userTeam);
     Optional<TeamSchedule> findByDaysOfWeekAndStartTimeAndEndTimeAndUserTeam(DaysOfWeek daysOfWeek, LocalTime startTime, LocalTime endTime, UserTeam userTeam);
 }

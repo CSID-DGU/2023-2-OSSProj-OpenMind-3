@@ -5,6 +5,7 @@ import com.ossprac.openmind.global.util.UserUtils;
 import com.ossprac.openmind.lecture.entity.LectureTime;
 import com.ossprac.openmind.lecture.repository.LectureTimeRepository;
 import com.ossprac.openmind.team.dto.req.TeamScheduleAddRequest;
+import com.ossprac.openmind.team.dto.req.TeamScheduleDeleteRequest;
 import com.ossprac.openmind.team.dto.res.PersonalScheduleResponse;
 import com.ossprac.openmind.team.dto.res.TeamScheduleResponse;
 import com.ossprac.openmind.team.entity.Team;
@@ -63,6 +64,20 @@ public class TeamScheduleService {
 
         TeamSchedule teamSchedule = teamEntityMapper.toTeamScheduleEntity(teamScheduleAddRequest, userTeam);
         teamScheduleRepository.save(teamSchedule);
+    }
+
+    public void deleteSchedule(TeamScheduleDeleteRequest teamScheduleDeleteRequest) {
+        Team team = teamRepository.findById(teamScheduleDeleteRequest.getTeamId()).orElseThrow();
+        UserTeam userTeam = userTeamRepository.findByTeamAndUser(team, userUtils.getUser());
+
+        deleteBy(teamScheduleDeleteRequest, userTeam);
+    }
+
+    private void deleteBy(TeamScheduleDeleteRequest teamScheduleDeleteRequest, UserTeam userTeam) {
+        teamScheduleRepository.deleteByDaysOfWeekAndAndStartTimeAndEndTimeAndUserTeam(teamScheduleDeleteRequest.getDaysOfWeek(),
+                teamScheduleDeleteRequest.getStartTime(),
+                teamScheduleDeleteRequest.getEndTime(),
+                userTeam);
     }
 
     private void setTeamSchedule(UserTeam userTeam) {

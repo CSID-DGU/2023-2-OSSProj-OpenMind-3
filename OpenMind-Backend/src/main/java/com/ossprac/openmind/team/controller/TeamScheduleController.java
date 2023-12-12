@@ -1,6 +1,7 @@
 package com.ossprac.openmind.team.controller;
 
 import com.ossprac.openmind.team.dto.req.TeamScheduleAddRequest;
+import com.ossprac.openmind.team.dto.req.TeamScheduleDeleteRequest;
 import com.ossprac.openmind.team.dto.res.PersonalScheduleResponse;
 import com.ossprac.openmind.team.dto.res.TeamScheduleResponse;
 import com.ossprac.openmind.team.service.TeamScheduleService;
@@ -32,6 +33,13 @@ public class TeamScheduleController {
     @PostMapping("/schedule")
     public ResponseEntity<String> addTeamSchedule(@RequestBody TeamScheduleAddRequest teamScheduleAddRequest) {
         teamScheduleService.addSchedule(teamScheduleAddRequest);
+        return ResponseEntity.ok("success");
+    }
+
+    @ApiOperation("시간표 삭제 API")
+    @DeleteMapping("/schedule")
+    public ResponseEntity<String> deleteTeamSchedule(@RequestBody TeamScheduleDeleteRequest teamScheduleDeleteRequest) {
+        teamScheduleService.deleteSchedule(teamScheduleDeleteRequest);
         return ResponseEntity.ok("success");
     }
 

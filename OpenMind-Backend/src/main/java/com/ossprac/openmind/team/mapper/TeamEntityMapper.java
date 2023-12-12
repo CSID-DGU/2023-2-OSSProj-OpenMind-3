@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import com.ossprac.openmind.lecture.entity.LectureTime;
 import com.ossprac.openmind.team.dto.req.TeamScheduleAddRequest;
+import com.ossprac.openmind.team.dto.req.TeamScheduleDeleteRequest;
 import com.ossprac.openmind.team.entity.TeamSchedule;
 import org.springframework.stereotype.Component;
 
