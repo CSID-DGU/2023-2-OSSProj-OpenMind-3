@@ -101,7 +101,7 @@ const Calendar = ({ teamId }) => {
 
   useEffect(() => {
     getTeamEventList();
-    console.log(eventList);
+    // console.log(eventList);
   }, [isEventModalOpen, isAddEventModalOpen]);
 
   return (
@@ -121,6 +121,7 @@ const Calendar = ({ teamId }) => {
               customButton: {
                 text: '일정 추가',
                 click: () => {
+                  setSelectedDate([]);
                   setIsAddEventModalOpen(true);
                 },
               },
@@ -132,20 +133,21 @@ const Calendar = ({ teamId }) => {
             // }}
             select={function (e) {
               //endStr 날짜 변환해주는 함수
+
               let date = new Date(e.endStr);
               let endString = new Date(date.setDate(date.getDate() - 1))
                 .toISOString()
                 .substring(0, 10);
 
               //selectedDate start,end 설정
-              setSelectedDate([e.startStr, endString]);
+              setSelectedDate([e.startStr, endString, e.endStr]);
 
               //해당 일정에 날짜 추가
               e.startStr === endString
                 ? window.confirm(`${e.startStr}에 일정을 추가하시겠습니까?`) &&
                   setIsAddEventModalOpen(true)
                 : window.confirm(
-                    `${e.startStr}-${endString}에 일정을 추가하시겠습니까?`
+                    `${e.startStr} ~ ${endString}에 일정을 추가하시겠습니까?`
                   ) && setIsAddEventModalOpen(true);
             }}
             events={eventList}
@@ -167,10 +169,9 @@ const Calendar = ({ teamId }) => {
           event={event}
           setEvent={setEvent}
           teamId={teamId}
-          setIsAddEventModalOpen={setIsAddEventModalOpen}
-          getTeamEventList={getTeamEventList}
-          clickedDate={clickedDate}
+          closeAddEventModal={handleClickAddEvent}
           selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
         />
       </Modal>
       <Modal
