@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+export const Wrapper = styled.div``;
 export const Text = styled.p`
   width: 100%;
   height: 25px;

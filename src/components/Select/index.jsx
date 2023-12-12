@@ -19,23 +19,31 @@ export const Select = () => {
   }, [accessToken]);
 
   return (
-    <>
-      <s.Text>{userName}님의 강의실</s.Text>
-      <s.SelectContainer>
-        <s.SelectList>
-          {lectures &&
-            lectures.map((item) => (
-              <s.SelectItem key={`lectureItem_${item.id}`}>
-                <s.LinkItem
-                  to={`:${item.id}`}
-                  onClick={() => localStorage.setItem('lectureName', item.name)}
-                >
-                  {item.name}
-                </s.LinkItem>
-              </s.SelectItem>
-            ))}
-        </s.SelectList>
-      </s.SelectContainer>
-    </>
+    <s.Wrapper>
+      {accessToken ? (
+        <>
+          <s.Text>{userName}님의 강의실</s.Text>
+          <s.SelectContainer>
+            <s.SelectList>
+              {lectures &&
+                lectures.map((item) => (
+                  <s.SelectItem key={`lectureItem_${item.id}`}>
+                    <s.LinkItem
+                      to={`:${item.id}`}
+                      onClick={() =>
+                        localStorage.setItem('lectureName', item.name)
+                      }
+                    >
+                      {item.name}
+                    </s.LinkItem>
+                  </s.SelectItem>
+                ))}
+            </s.SelectList>
+          </s.SelectContainer>
+        </>
+      ) : (
+        <p>Loading....</p>
+      )}
+    </s.Wrapper>
   );
 };
