@@ -48,7 +48,7 @@ const DocumentQuill = () => {
           <s.TitleInput placeholder='제목을 입력하세요' />
         </s.TitleInputWrapper>
         <ReactQuill
-          style={{ width: '60vw', height: '66vh' }}
+          style={{ width: '60vw', height: '55vh' }}
           ref={quillRef}
           modules={modules}
           formats={formats}

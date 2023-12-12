@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const QuillWrapper = styled.div`
   width: 60vw;
-  height: 75vh;
+  height: 63vh;
 `;
 export const ButtonWrapper = styled.div`
   display: flex;

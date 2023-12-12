@@ -29,6 +29,7 @@ const DocumentPage = () => {
         setDocumentList(data);
       });
     };
+    const array = ['2023.12.09', '2023.12.04', '2023.10.11', '2023.09.22'];
 
     useEffect(() => {
       getDocumentList();
@@ -38,33 +39,33 @@ const DocumentPage = () => {
         <div
           className='table-responsive project-list'
           style={{
-            height: '220px',
+            height: '400px',
             overflowY: 'auto',
           }}
         >
-          {documentList.map((item) => (
-            <>
-              <table className='table project-table table-centered table-nowrap'>
-                <thead>
-                  <tr>
-                    <th scope='col'></th>
-                    <th scope='col' style={{ textAlign: 'center' }}>
-                      제목
-                    </th>
-                    <th scope='col' style={{ textAlign: 'center' }}>
-                      수정일
-                    </th>
-                    <th scope='col' style={{ textAlign: 'center' }}>
-                      작성자
-                    </th>
-                    <th scope='col' style={{ width: '100px' }}></th>
-                  </tr>
-                </thead>
-                <tbody>
+          <>
+            <table className='table project-table table-centered table-nowrap'>
+              <thead>
+                <tr>
+                  <th scope='col'></th>
+                  <th scope='col' style={{ textAlign: 'center' }}>
+                    제목
+                  </th>
+                  <th scope='col' style={{ textAlign: 'center' }}>
+                    수정일
+                  </th>
+                  <th scope='col' style={{ textAlign: 'center' }}>
+                    작성자
+                  </th>
+                  <th scope='col' style={{ width: '100px' }}></th>
+                </tr>
+              </thead>
+              <tbody>
+                {documentList.map((item, index) => (
                   <tr style={{ textAlign: 'center' }}>
-                    <th scope='row'>1</th>
+                    <th scope='row'>{index + 1}</th>
                     <td>{item.title}</td>
-                    <td>2023.11.13</td>
+                    <td>{array[index]}</td>
                     <td>{userName}</td>
                     <td>
                       <s.Icon src={pen}></s.Icon>
@@ -72,10 +73,10 @@ const DocumentPage = () => {
                       <s.Icon src={trash}></s.Icon>
                     </td>
                   </tr>
-                </tbody>
-              </table>
-            </>
-          ))}
+                ))}
+              </tbody>
+            </table>
+          </>
         </div>
       </s.DocumentListContainer>
     );
