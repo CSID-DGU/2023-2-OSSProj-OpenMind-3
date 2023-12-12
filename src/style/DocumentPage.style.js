@@ -30,6 +30,15 @@ export const DocumentListContainer = styled.div`
   border-radius: 0 0 15px 15px;
   margin-top: 0;
   box-sizing: border-box;
+
+  .document_list {
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(0.9);
+      background-color: #eee;
+    }
+  }
 `;
 export const HeaderLabel = styled.p`
   width: 97%;
