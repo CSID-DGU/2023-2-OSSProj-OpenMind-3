@@ -6,7 +6,6 @@ const EventModal = ({ selectedEventId, closeEventModal, getTeamEventList }) => {
   const [updatedEvent, setUpdatedEvent] = useState({});
   const [event, setEvent] = useState({});
   const [isUpdating, setIsUpdating] = useState(false);
-  const [endString, setEndString] = useState();
 
   const getEvent = () => {
     mainpageAPI.getEvent(selectedEventId).then((data) => {
@@ -42,16 +41,16 @@ const EventModal = ({ selectedEventId, closeEventModal, getTeamEventList }) => {
     });
   };
 
-  const customStart = (dateStr) => {
-    const Time = ' 00:00:00';
-    console.log(dateStr + Time);
-    return dateStr + Time;
-  };
-  const customEnd = (dateStr) => {
-    const Time = ' 24:00:00';
-    console.log(dateStr + Time);
-    return dateStr + Time;
-  };
+  // const customStart = (dateStr) => {
+  //   const Time = ' 00:00:00';
+  //   console.log(dateStr + Time);
+  //   return dateStr + Time;
+  // };
+  // const customEnd = (dateStr) => {
+  //   const Time = ' 24:00:00';
+  //   console.log(dateStr + Time);
+  //   return dateStr + Time;
+  // };
 
   const handleClickDelete = () => {
     if (window.confirm('해당 일정을 삭제하시겠습니까?')) {
@@ -64,8 +63,8 @@ const EventModal = ({ selectedEventId, closeEventModal, getTeamEventList }) => {
 
     setUpdatedEvent({
       ...event,
-      start: customStart(event.start),
-      end: customEnd(event.end),
+      start: event.start,
+      end: event.end,
       [name]: value,
     });
     console.log(updatedEvent);
