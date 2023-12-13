@@ -54,9 +54,13 @@ const documentAPI = {
   deleteDocument: async (meetingNoteId) => {
     try {
       const path = `${process.env.REACT_APP_BASE_URL}/api/meetingNotes/delete/?meetingNoteId=${meetingNoteId}`;
-      const response = await HttpClient.delete(path, {
-        Authorization: `Bearer ${accessToken}`,
-      });
+      const response = await HttpClient.delete(
+        path,
+        {},
+        {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      );
       return response;
     } catch (e) {
       return null;

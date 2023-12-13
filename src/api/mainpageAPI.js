@@ -86,9 +86,13 @@ const mainpageAPI = {
   deleteEvent: async (eventId) => {
     try {
       const path = `${process.env.REACT_APP_BASE_URL}/api/events/${eventId}`;
-      const response = await HttpClient.delete(path, {
-        Authorization: `Bearer ${accessToken}`,
-      });
+      const response = await HttpClient.delete(
+        path,
+        {},
+        {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      );
       return response;
     } catch (e) {
       return null;

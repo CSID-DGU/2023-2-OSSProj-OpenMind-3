@@ -21,10 +21,10 @@ export const ScheduleText = styled.p`
 `;
 
 export const ButtonWrapper = styled.div`
+  display: flex;
   width: 120px;
   height: 40px;
-  margin-left: 150px;
-  display: flex;
+  margin-left: 180px;
   justify-content: space-around;
 `;
 export const MyScheduleButton = styled.div`
@@ -116,4 +116,60 @@ export const DayCell = styled.th`
 
 export const TimeHeader = styled.th`
   padding: 5px;
+`;
+
+export const ScheduleModalWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+export const SelectBox = styled.select``;
+
+export const SelectOptions = styled.option``;
+
+export const TimeInputWrapper = styled.div`
+  width: 100%;
+  text-align: center;
+`;
+
+export const InputLabel = styled.label`
+  height: fit-content;
+  flex: block;
+  margin-right: 10px;
+`;
+export const TimeInput = styled.input`
+  flex: block;
+  width: 150px;
+`;
+
+export const ScheduleButtonWrapper = styled.div`
+  width: 150px;
+  display: flex;
+  justify-content: space-around;
+`;
+export const ScheduleButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 30px;
+  margin: 0 auto;
+  margin-top: 30px;
+  border-radius: 10px;
+  border: none;
+  background-color: #f59c00;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  cursor: pointer;
+  &:hover {
+    filter: brightness(80%);
+  }
+
+  &:active {
+    outline: none;
+  }
 `;

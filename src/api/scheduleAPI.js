@@ -29,6 +29,28 @@ const schedulAPI = {
       return null;
     }
   },
+  postSchedule: async (formData) => {
+    try {
+      const path = `${process.env.REACT_APP_BASE_URL}/team/schedule`;
+      const response = await HttpClient.post(path, formData, {
+        Authorization: `Bearer ${accessToken}`,
+      });
+      return response;
+    } catch (e) {
+      return null;
+    }
+  },
+  deleteSchedule: async (formData) => {
+    try {
+      const path = `${process.env.REACT_APP_BASE_URL}/team/schedule`;
+      const response = await HttpClient.delete(path, formData, {
+        Authorization: `Bearer ${accessToken}`,
+      });
+      return response;
+    } catch (e) {
+      return null;
+    }
+  },
 };
 
 export default schedulAPI;

@@ -120,9 +120,9 @@ const HttpClient = {
     }
   },
 
-  delete: async (path, headers = {}) => {
+  delete: async (path, body, headers = {}) => {
     try {
-      const response = await axiosInstance.delete(path, { headers });
+      const response = await axiosInstance.delete(path, body, { headers });
       return response.data;
     } catch (e) {
       handleStatusCode(e);
