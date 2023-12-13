@@ -48,18 +48,22 @@ public class Event {
         this.team = team;
     }
 
-    public void update(EventUpdateRequestDto requestDto) {
-        if (requestDto.getTitle() != null) {
-            this.title = requestDto.getTitle();
+    public void update(Event event) {
+        if (event.getTitle() != null) {
+            this.title = event.getTitle();
         }
-        if (requestDto.getDescription() != null) {
-            this.description = requestDto.getDescription();
+        if (event.getDescription() != null) {
+            this.description = event.getDescription();
         }
-        if (requestDto.getStart() != null) {
-            this.start = LocalDate.parse(requestDto.getStart());
+        if (event.getStart() != null) {
+            this.start = event.getStart();
         }
-        if (requestDto.getEnd() != null) {
-            this.end = LocalDate.parse(requestDto.getEnd());
+        if (event.getEnd() != null) {
+            this.end = event.getEnd();
         }
+    }
+
+    public void setEnd(LocalDate end) {
+        this.end = end;
     }
 }
