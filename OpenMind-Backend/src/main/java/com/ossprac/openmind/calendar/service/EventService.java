@@ -55,7 +55,14 @@ public class EventService {
 
     public EventResponseDto updateEvent(Long eventId, EventUpdateRequestDto requestDto) {
         Event event = eventRepository.findById(eventId).orElseThrow();
-        event.update(requestDto);
+        Event requestEvent = requestDto.toEntity();
+        if (requestEvent.getStart().isAfter(requestEvent.getEnd())) {
+            throw new IllegalArgumentException("startDate 가 endDate 보다 늦습니다.");
+        }
+        if (!requestEvent.getStart().equals(requestEvent.getEnd())) {
+            requestEvent.setEnd(requestEvent.getEnd().plusDays(1));
+        }
+        event.update(requestEvent);
         Event savedEvent = eventRepository.save(event);
         return getResponseEventDto(savedEvent);
     }
