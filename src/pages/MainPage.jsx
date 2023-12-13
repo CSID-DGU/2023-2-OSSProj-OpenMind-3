@@ -3,7 +3,7 @@ import * as s from '../style/MainPage.style';
 import Calendar from '../components/Calendar';
 import plus from '../assets/icon/Add.svg';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Modal from 'react-modal';
 import mainpageAPI from '../api/mainpageAPI';
 import documentAPI from '../api/documentAPI';
@@ -21,6 +21,8 @@ const MainPage = () => {
 
   const params = useParams();
   const teamId = Number(params.teamId.substring(1));
+
+  const navigate = useNavigate();
 
   const formData = {
     membersId: checkedList,
@@ -233,7 +235,10 @@ const MainPage = () => {
         <s.ContainerBox>
           <s.BoxHeader>
             <s.BoxTitle>회의록</s.BoxTitle>
-            <s.AddButton src={plus}></s.AddButton>
+            <s.AddButton
+              src={plus}
+              onClick={() => navigate(`/teamspace/document/:${teamId}`)}
+            ></s.AddButton>
           </s.BoxHeader>
           <div
             className='table-responsive project-list'
@@ -253,7 +258,11 @@ const MainPage = () => {
               </thead>
               <tbody>
                 {documentList?.map((item, index) => (
-                  <tr style={{ textAlign: 'center' }}>
+                  <tr
+                    className='document_list'
+                    style={{ textAlign: 'center' }}
+                    onClick={() => navigate(`/teamspace/document/:${teamId}`)}
+                  >
                     <th scope='row'>{index + 1}</th>
                     <td>{item.title}</td>
                     <td>{item.createDate}</td>

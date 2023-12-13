@@ -89,12 +89,12 @@ export const TimeCell = styled.td`
   background-color: #fff;
   font-size: 12px;
 
-  &.values {
+  /* &.values {
     cursor: pointer;
     &:hover {
       background-color: #f8cbad;
     }
-  }
+  } */
 `;
 
 export const DayCell = styled.th`

@@ -100,6 +100,10 @@ export const ContainerBox = styled.div`
   margin-bottom: 10px;
 
   box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+
+  .document_list {
+    cursor: pointer;
+  }
 `;
 
 export const BoxHeader = styled.div`
