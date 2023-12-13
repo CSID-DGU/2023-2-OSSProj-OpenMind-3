@@ -3,19 +3,26 @@ import * as s from '../style/MainPage.style';
 import Calendar from '../components/Calendar';
 import plus from '../assets/icon/Add.svg';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Modal from 'react-modal';
 import mainpageAPI from '../api/mainpageAPI';
+import documentAPI from '../api/documentAPI';
 
 const MainPage = () => {
   const [teamInfo, setTeamInfo] = useState([]);
   const [teamMembers, setTeamMembers] = useState();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isStudentListModalOpen, setIsStudentListModalOpen] = useState(false);
+
   const [studentList, setStudentList] = useState([]);
   const [checkedList, setCheckedList] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
+
+  const [documentList, setDocumentList] = useState([]);
+
   const params = useParams();
   const teamId = Number(params.teamId.substring(1));
+
+  const navigate = useNavigate();
 
   const formData = {
     membersId: checkedList,
@@ -24,20 +31,22 @@ const MainPage = () => {
 
   //+버튼 눌렀을 때
   const handleClickAddButton = () => {
-    setIsModalOpen((prev) => !prev);
+    setIsStudentListModalOpen((prev) => !prev);
     showStudentList();
     refreshTeamInfo();
   };
 
+  // const handleClickAddEvent = () => {
+  //   setIsAddEventModalOpen((prev) => !prev);
+  // };
+
   //+버튼 눌렀을 때 나오는 모달에서 사용하는 get메소드
   const showStudentList = () => {
     mainpageAPI.getStudentList().then((data) => {
-      setStudentList(
-        data.userList
-        // data.userList.filter(
-        //   (item) => item.userId !== teamMembers.forEach((item) => item.userId)
-        // )
+      const newStudentList = data.userList.filter(
+        (user) => !teamMembers.some((member) => member.userId === user.userId)
       );
+      setStudentList(newStudentList);
     });
   };
 
@@ -61,7 +70,7 @@ const MainPage = () => {
   const addTeamMember = () => {
     mainpageAPI.addTeamMember(formData).then((data) => {
       console.log(data);
-      setIsModalOpen(false);
+      setIsStudentListModalOpen(false);
       refreshTeamInfo();
     });
     refreshTeamInfo();
@@ -74,6 +83,7 @@ const MainPage = () => {
       setTeamMembers(data.userResponses);
     });
   };
+
   //모달 style
   const StudentListModalStyle = {
     overlay: {
@@ -101,15 +111,22 @@ const MainPage = () => {
       overflow: 'auto',
     },
   };
+  const getDocumentList = () => {
+    documentAPI.getDocumentList(teamId).then((data) => {
+      console.log(data);
+      setDocumentList(data);
+    });
+  };
 
   useEffect(() => {
     refreshTeamInfo();
+    getDocumentList();
   }, []);
 
   return (
     <s.Wrapper>
       <s.LeftContainer>
-        <Calendar />
+        <Calendar teamId={teamId} />
       </s.LeftContainer>
       <s.RightContainer>
         {/* 팀원구성 */}
@@ -121,7 +138,7 @@ const MainPage = () => {
               onClick={handleClickAddButton}
             ></s.AddButton>
             <Modal
-              isOpen={isModalOpen}
+              isOpen={isStudentListModalOpen}
               style={StudentListModalStyle}
               onRequestClose={handleClickAddButton} // 오버레이나 esc를 누르면 핸들러 동작
               ariaHideApp={false}
@@ -171,9 +188,7 @@ const MainPage = () => {
                   </tbody>
                 </table>
               </div>
-              <s.InviteStudentButton onClick={addTeamMember}>
-                초대
-              </s.InviteStudentButton>
+              <s.Button onClick={addTeamMember}>초대</s.Button>
             </Modal>
           </s.BoxHeader>
           <div
@@ -220,7 +235,10 @@ const MainPage = () => {
         <s.ContainerBox>
           <s.BoxHeader>
             <s.BoxTitle>회의록</s.BoxTitle>
-            <s.AddButton src={plus}></s.AddButton>
+            <s.AddButton
+              src={plus}
+              onClick={() => navigate(`/teamspace/document/:${teamId}`)}
+            ></s.AddButton>
           </s.BoxHeader>
           <div
             className='table-responsive project-list'
@@ -239,21 +257,17 @@ const MainPage = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr style={{ textAlign: 'center' }}>
-                  <th scope='row'>1</th>
-                  <td>제안서 PPT 제작</td>
-                  <td>2023.09.23</td>
-                </tr>
-                <tr style={{ textAlign: 'center' }}>
-                  <th scope='row'>2</th>
-                  <td>제안서 발표 준비</td>
-                  <td>2023.09.22</td>
-                </tr>
-                <tr style={{ textAlign: 'center' }}>
-                  <th scope='row'>3</th>
-                  <td>팀플 주제 정하기</td>
-                  <td>2023.09.18</td>
-                </tr>
+                {documentList?.map((item, index) => (
+                  <tr
+                    className='document_list'
+                    style={{ textAlign: 'center' }}
+                    onClick={() => navigate(`/teamspace/document/:${teamId}`)}
+                  >
+                    <th scope='row'>{index + 1}</th>
+                    <td>{item.title}</td>
+                    <td>{item.createDate}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

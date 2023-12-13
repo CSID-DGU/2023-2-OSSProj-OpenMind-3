@@ -1,4 +1,5 @@
 import { Link, Outlet } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import '../bootstrap.css';
 
 const TeamSpace = () => {
@@ -6,6 +7,8 @@ const TeamSpace = () => {
   const userId = localStorage.getItem('userId');
   const userName = localStorage.getItem('userName');
   const lectureName = localStorage.getItem('lectureName');
+  const params = useParams();
+  const teamId = params.teamId;
 
   return (
     <>
@@ -20,7 +23,7 @@ const TeamSpace = () => {
         <form className='d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search'>
           <div className='input-group'>
             <div className='sidebar-brand d-flex align-items-center justify-content-center'>
-              <a href={'/teamspace/main'}>
+              <a href={`/teamspace/main/${teamId}`}>
                 <img
                   width={160}
                   height={28}
@@ -67,9 +70,9 @@ const TeamSpace = () => {
               className='link-item-container'
             >
               <a
-                href={'/teamspace/main'}
+                href={`/teamspace/main/${teamId}`}
                 className={
-                  pathname === '/teamspace/main'
+                  pathname === `/teamspace/main/${teamId}`
                     ? 'link-item active'
                     : 'link-item'
                 }
@@ -86,9 +89,9 @@ const TeamSpace = () => {
               className='link-item-container'
             >
               <a
-                href={'/teamspace/schedule'}
+                href={`/teamspace/schedule/${teamId}`}
                 className={
-                  pathname === '/teamspace/schedule'
+                  pathname === `/teamspace/schedule/${teamId}`
                     ? 'link-item active'
                     : 'link-item'
                 }
@@ -109,9 +112,9 @@ const TeamSpace = () => {
               className='link-item-container'
             >
               <a
-                href={'/teamspace/document'}
+                href={`/teamspace/document/${teamId}`}
                 className={
-                  pathname === '/teamspace/document'
+                  pathname === `/teamspace/document/${teamId}`
                     ? 'link-item active'
                     : 'link-item'
                 }

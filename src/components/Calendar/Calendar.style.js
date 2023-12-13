@@ -34,27 +34,61 @@ export const FullCalendarContainer = styled.div`
 
   // toolbar 버튼
   .fc .fc-button-primary {
-    background-color: transparent;
+    background: #f59c00;
     border: none;
 
     span {
       font-weight: 500;
       font-size: 28px;
     }
+  }
 
+  .fc .fc-button-primary:focus {
+    background-color: transparent;
+    border-color: transparent;
+    outline: none;
+    box-shadow: none;
+  }
+  .fc .fc-button-primary:active {
+    background-color: transparent;
+    border-color: transparent;
+    outline: none;
+    box-shadow: none;
+  }
+
+  .fc .fc-customButton-button {
+    background-color: transparent;
+    border: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     :hover {
-      background-color: transparent;
+      outline: 0;
     }
+    :active {
+      background: #f59c00;
+      outline: 0;
+    }
+  }
+
+  .fc .fc-customButton-button:active {
+    background: #f59c00;
+    outline: none;
+  }
+  .fc .fc-customButton-button:focus {
+    background: #f59c00;
+    outline: none;
   }
   // 요일 부분
   .fc-theme-standard th {
     height: 25px;
     padding-top: 3px;
-    /* background: #e5edff; */
     border: 1px solid #dddee0;
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
     color: #7b7b7b;
+  }
+
+  .fc-event {
+    cursor: pointer;
   }
 `;

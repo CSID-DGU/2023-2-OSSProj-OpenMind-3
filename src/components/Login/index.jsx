@@ -38,11 +38,15 @@ export const Login = () => {
     //   })
     userAPI.loginUser(user).then((data) => {
       console.log(data);
-      sessionStorage.setItem('accessToken', data.atk);
-      localStorage.setItem('refreshToken', data.rtk);
-      localStorage.setItem('userName', data.name);
-      localStorage.setItem('userId', user.id);
-      navigate('/select');
+      if (data) {
+        sessionStorage.setItem('accessToken', data.atk);
+        localStorage.setItem('refreshToken', data.rtk);
+        localStorage.setItem('userName', data.name);
+        localStorage.setItem('userId', user.id);
+        navigate('/select');
+      } else {
+        window.alert('등록된 회원이 아닙니다.');
+      }
     });
   };
 

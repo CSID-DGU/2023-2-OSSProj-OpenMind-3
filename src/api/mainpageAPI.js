@@ -42,6 +42,73 @@ const mainpageAPI = {
       return null;
     }
   },
+  addEvent: async (formData) => {
+    try {
+      const path = `${process.env.REACT_APP_BASE_URL}/api/events/add`;
+      const response = await HttpClient.post(path, formData, {
+        Authorization: `Bearer ${accessToken}`,
+      });
+      return response;
+    } catch (e) {
+      return null;
+    }
+  },
+  getTeamEventList: async (teamId) => {
+    try {
+      const path = `${process.env.REACT_APP_BASE_URL}/api/events/team/${teamId}`;
+      const response = await HttpClient.get(
+        path,
+        {},
+        {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      );
+      return response;
+    } catch (e) {
+      return null;
+    }
+  },
+  getEvent: async (teamId) => {
+    try {
+      const path = `${process.env.REACT_APP_BASE_URL}/api/events/${teamId}`;
+      const response = await HttpClient.get(
+        path,
+        {},
+        {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      );
+      return response;
+    } catch (e) {
+      return null;
+    }
+  },
+  deleteEvent: async (eventId) => {
+    try {
+      const path = `${process.env.REACT_APP_BASE_URL}/api/events/${eventId}`;
+      const response = await HttpClient.delete(
+        path,
+        {},
+        {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      );
+      return response;
+    } catch (e) {
+      return null;
+    }
+  },
+  updateEvent: async (eventId, formData) => {
+    try {
+      const path = `${process.env.REACT_APP_BASE_URL}/api/events/${eventId}`;
+      const response = await HttpClient.put(path, formData, {
+        Authorization: `Bearer ${accessToken}`,
+      });
+      return response;
+    } catch (e) {
+      return null;
+    }
+  },
 };
 
 export default mainpageAPI;
