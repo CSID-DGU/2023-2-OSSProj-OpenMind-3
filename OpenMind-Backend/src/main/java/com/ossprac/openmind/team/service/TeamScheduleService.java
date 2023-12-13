@@ -18,6 +18,7 @@ import com.ossprac.openmind.team.repository.UserTeamRepository;
 import com.ossprac.openmind.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 import static com.ossprac.openmind.global.error.ErrorCode.DUPLICATED_SCHEDULE;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class TeamScheduleService {
     private final LectureTimeRepository lectureTimeRepository;
@@ -74,7 +76,7 @@ public class TeamScheduleService {
     }
 
     private void deleteBy(TeamScheduleDeleteRequest teamScheduleDeleteRequest, UserTeam userTeam) {
-        teamScheduleRepository.deleteByDaysOfWeekAndAndStartTimeAndEndTimeAndUserTeam(teamScheduleDeleteRequest.getDaysOfWeek(),
+        teamScheduleRepository.deleteBy(teamScheduleDeleteRequest.getDaysOfWeek(),
                 teamScheduleDeleteRequest.getStartTime(),
                 teamScheduleDeleteRequest.getEndTime(),
                 userTeam);
