@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as s from '../style/LandingPage.style.js';
-import { Login } from '../components/Login/index';
-import { Select } from '../components/Select/index';
+import { Outlet } from 'react-router-dom';
 
 const LandingPage = () => {
-  const [isClickedLogin, setIsClickedLogin] = useState(true);
-  const [isLoginOk, setIsLoginOK] = useState(false);
-
+  useEffect(() => {});
   return (
     <s.Wrapper>
       <s.Background>
@@ -20,11 +17,7 @@ const LandingPage = () => {
               />
             </s.HeaderContainer>
             <s.ContentContainer>
-              {!isLoginOk ? (
-                <Login setIsLoginOk={setIsLoginOK}></Login>
-              ) : (
-                <Select />
-              )}
+              <Outlet />
             </s.ContentContainer>
           </s.ModalWrapper>
           .

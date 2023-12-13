@@ -1,48 +1,63 @@
-import { useState } from 'react';
 import * as s from './Login.style.js';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import userAPI from '../../api/userAPI.js';
 
-export const Login = ({ setIsLoginOk }) => {
-  const [values, setValues] = useState({
+export const Login = () => {
+  const [user, setUser] = useState({
     id: '',
     password: '',
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value,
+    const { name, value } = e.target;
+    setUser({
+      ...user,
+      [name]: value,
     });
-    console.log(values);
   };
 
-  const handleSubmit = () => {
-    values.id === '2019111615' &&
-      values.password === '1234' &&
-      setIsLoginOk(true);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // axios
+    //   .post(`${process.env.REACT_APP_BASE_URL}/user/login`, user)
+    //   .then((response) => {
+    //     if (response.status === 200) {
+    //       console.log(200);
+    //       return response.data;
+    //     }
+    //     if (response.status === 400) {
+    //       console.log(400);
+    //       console.log(response);
+    //       const responseData = response.data;
+    //       const errorMessages = Object.values(responseData.error).join('\n');
+    //       alert(errorMessages);
+    //       throw new Error();
+    //     }
+    //   })
+    userAPI.loginUser(user).then((data) => {
+      console.log(data);
+      if (data) {
+        sessionStorage.setItem('accessToken', data.atk);
+        localStorage.setItem('refreshToken', data.rtk);
+        localStorage.setItem('userName', data.name);
+        localStorage.setItem('userId', user.id);
+        navigate('/select');
+      } else {
+        window.alert('등록된 회원이 아닙니다.');
+      }
+    });
   };
 
   return (
-    <form name='loginForm' type='submit' action=''>
+    <>
       <s.InputLabel>학번</s.InputLabel>
-      <s.Input
-        type='text'
-        name='id'
-        value={values.id}
-        onChange={handleChange}
-      />
+      <s.Input type='text' name='id' onChange={handleChange} />
       <s.InputLabel>비밀번호</s.InputLabel>
-      <s.Input
-        type='password'
-        name='password'
-        value={values.password}
-        // autoComplete={}
-        // onKeyDown={}
-        // value={}
-        onChange={handleChange}
-      />
-      <s.Button type='submit' onClick={handleSubmit}>
-        로그인
-      </s.Button>
-    </form>
+      <s.Input type='password' name='password' onChange={handleChange} />
+
+      <s.Button onClick={handleSubmit}>로그인</s.Button>
+    </>
   );
 };

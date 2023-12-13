@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faBars } from '@fortawesome/free-solid-svg-icons';
-
+import { useParams } from 'react-router-dom';
 import '../bootstrap.css';
 
 const TeamSpace = () => {
   const pathname = window.location.pathname;
+  const userId = localStorage.getItem('userId');
+  const userName = localStorage.getItem('userName');
+  const lectureName = localStorage.getItem('lectureName');
+  const params = useParams();
+  const teamId = params.teamId;
 
   return (
     <>
@@ -21,7 +23,7 @@ const TeamSpace = () => {
         <form className='d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search'>
           <div className='input-group'>
             <div className='sidebar-brand d-flex align-items-center justify-content-center'>
-              <a href={'/teamspace/main'}>
+              <a href={`/teamspace/main/${teamId}`}>
                 <img
                   width={160}
                   height={28}
@@ -32,12 +34,7 @@ const TeamSpace = () => {
                 />
               </a>
 
-              <div className='h6 text-gray-800'>
-                {/* <button className='btn btn-link d-md-none rounded-circle mr-3'>
-                <FontAwesomeIcon icon={faBars} />
-              </button> */}
-                오픈소스소프트웨어프로젝트
-              </div>
+              <div className='h6 text-gray-800'>{lectureName}</div>
             </div>
           </div>
         </form>
@@ -49,7 +46,7 @@ const TeamSpace = () => {
           {/*<!-- Nav Item - User Information -->*/}
 
           <span className='mr-2 d-none d-lg-inline text-gray-600 small user-info'>
-            2023111111 홍길동님
+            {userId} {userName}님
             {/* {userInfo ? `${userInfo.name} (${userInfo.studentId})` : ''} */}
           </span>
 
@@ -73,9 +70,9 @@ const TeamSpace = () => {
               className='link-item-container'
             >
               <a
-                href={'/teamspace/main'}
+                href={`/teamspace/main/${teamId}`}
                 className={
-                  pathname === '/teamspace/main'
+                  pathname === `/teamspace/main/${teamId}`
                     ? 'link-item active'
                     : 'link-item'
                 }
@@ -92,9 +89,9 @@ const TeamSpace = () => {
               className='link-item-container'
             >
               <a
-                href={'/teamspace/schedule'}
+                href={`/teamspace/schedule/${teamId}`}
                 className={
-                  pathname === '/teamspace/schedule'
+                  pathname === `/teamspace/schedule/${teamId}`
                     ? 'link-item active'
                     : 'link-item'
                 }
@@ -115,9 +112,9 @@ const TeamSpace = () => {
               className='link-item-container'
             >
               <a
-                href={'/teamspace/document'}
+                href={`/teamspace/document/${teamId}`}
                 className={
-                  pathname === '/teamspace/document'
+                  pathname === `/teamspace/document/${teamId}`
                     ? 'link-item active'
                     : 'link-item'
                 }
