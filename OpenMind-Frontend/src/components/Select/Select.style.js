@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+export const Wrapper = styled.div``;
 export const Text = styled.p`
   width: 100%;
   height: 25px;
@@ -31,6 +32,9 @@ export const SelectList = styled.ul`
   width: 80%;
   height: 100%;
   padding: 0;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const SelectItem = styled.li`
   width: 100%;

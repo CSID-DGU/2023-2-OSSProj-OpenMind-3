@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import * as s from '../style/SchedulePage.style';
+import ScheduleTable from '../components/ScheduleTable';
+import { useParams } from 'react-router-dom';
+import ScheduleTableTeam from '../components/ScheduleTableTeam';
 
 const SchedulePage = () => {
-  return <div>이곳은 팀 스페이스의 [일정관리] 탭입니다.</div>;
+  return (
+    <s.Wrapper>
+      <s.LeftContainer>
+        <ScheduleTable />
+      </s.LeftContainer>
+      <s.RightContainer>
+        <ScheduleTableTeam />
+      </s.RightContainer>
+    </s.Wrapper>
+  );
 };
 
 export default SchedulePage;

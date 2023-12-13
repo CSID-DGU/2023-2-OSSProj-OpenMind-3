@@ -2,14 +2,18 @@ package com.ossprac.openmind.calendar.service;
 
 import com.ossprac.openmind.calendar.dto.EventRequestDto;
 import com.ossprac.openmind.calendar.dto.EventResponseDto;
+import com.ossprac.openmind.calendar.dto.EventUpdateRequestDto;
 import com.ossprac.openmind.calendar.entity.Event;
 import com.ossprac.openmind.calendar.repository.EventRepository;
+import com.ossprac.openmind.team.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -17,52 +21,64 @@ import org.springframework.transaction.annotation.Transactional;
 public class EventService {
 
     @Autowired
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
+    private final TeamRepository teamRepository;
 
     @Transactional
-    public ResponseEntity<?> addEvent(EventRequestDto eventRequestDto) {
-        try {
-            Event event = eventRequestDto.toEntity();
-            log.info("event : {}", event);
-            Event savedEvent;
-
-            try {
-                savedEvent = eventRepository.save(event);
-            } catch (Exception e) {
-                log.error("error : {}", e.getMessage());
-                return ResponseEntity.badRequest().body(e.getMessage());
-            }
-            EventResponseDto response = getResponseEventDto(savedEvent);
-            return ResponseEntity.ok().body(response);
+    public EventResponseDto addEvent(EventRequestDto eventRequestDto) {
+        Event event = eventRequestDto.toEntity();
+        if (event.getStart().isAfter(event.getEnd())) {
+            throw new IllegalArgumentException("startDate 가 endDate 보다 늦습니다.");
         }
-        catch (Exception e) {
-            log.error("error : {}", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
+        if (!event.getStart().equals(event.getEnd())) {
+            event.setEnd(event.getEnd().plusDays(1));
         }
+        Event savedEvent = eventRepository.save(event);
+        teamRepository.findById(eventRequestDto.getTeamId()).ifPresent(savedEvent::setTeam);
+        return getResponseEventDto(savedEvent);
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> getEvent(Long eventId) {
-        try {
-            Event event = eventRepository.findById(eventId).orElse(null);
-            EventResponseDto response = null;
-            if (event != null) {
-                response = getResponseEventDto(event);
-            }
-            return ResponseEntity.ok().body(response);
-        } catch (Exception e) {
-            log.error("error : {}", e.getMessage());
-            return null;
-        }
+    public EventResponseDto getEvent(Long eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow();
+        return getResponseEventDto(event);
     }
 
-    private static EventResponseDto getResponseEventDto(Event savedEvent) {
+    @Transactional(readOnly = true)
+    public List<EventResponseDto> getEventListByTeamId(Long teamId) {
+        List<Event> eventList = eventRepository.findAllByTeamId(teamId);
+        List<EventResponseDto> eventResponseDtoList = eventList.stream()
+                .map(this::getResponseEventDto)
+                .collect(Collectors.toList());
+        return eventResponseDtoList;
+    }
+
+    public EventResponseDto updateEvent(Long eventId, EventUpdateRequestDto requestDto) {
+        Event event = eventRepository.findById(eventId).orElseThrow();
+        Event requestEvent = requestDto.toEntity();
+        if (requestEvent.getStart().isAfter(requestEvent.getEnd())) {
+            throw new IllegalArgumentException("startDate 가 endDate 보다 늦습니다.");
+        }
+        if (!requestEvent.getStart().equals(requestEvent.getEnd())) {
+            requestEvent.setEnd(requestEvent.getEnd().plusDays(1));
+        }
+        event.update(requestEvent);
+        Event savedEvent = eventRepository.save(event);
+        return getResponseEventDto(savedEvent);
+    }
+
+    public void deleteEvent(Long eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow();
+        eventRepository.delete(event);
+    }
+
+    private EventResponseDto getResponseEventDto(Event savedEvent) {
         return EventResponseDto.builder()
                 .id(savedEvent.getId())
                 .title(savedEvent.getTitle())
                 .description(savedEvent.getDescription())
-                .startDate(savedEvent.getStartDate())
-                .endDate(savedEvent.getEndDate())
+                .start(savedEvent.getStart())
+                .end(savedEvent.getEnd())
                 .build();
     }
 }

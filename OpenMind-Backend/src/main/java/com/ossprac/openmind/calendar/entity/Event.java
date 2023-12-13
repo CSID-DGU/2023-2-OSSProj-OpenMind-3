@@ -1,12 +1,14 @@
 package com.ossprac.openmind.calendar.entity;
 
+import com.ossprac.openmind.calendar.dto.EventUpdateRequestDto;
+import com.ossprac.openmind.team.entity.Team;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -18,9 +20,9 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "team_id")
-//    private Team team;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     private String title;
 
@@ -28,22 +30,40 @@ public class Event {
     private String description;
 
     @Column(name = "start_date")
-    private LocalDateTime startDate;
+    private LocalDate start;
 
     @Column(name = "end_date")
-    private LocalDateTime endDate;
+    private LocalDate end;
 
     @Builder
-    public Event(String title, String description, LocalDateTime startDate, LocalDateTime endDate) {
+    public Event(String title, String description, LocalDate start, LocalDate end) {
         this.title = title;
         this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.start = start;
+        this.end = end;
     }
 
     //==연관 관계 편의 메서드 ==//
-//    public void setTeam(Team team) {
-//        team.getEvents().add(this);
-//        this.team = team;
-//    }
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public void update(Event event) {
+        if (event.getTitle() != null) {
+            this.title = event.getTitle();
+        }
+        if (event.getDescription() != null) {
+            this.description = event.getDescription();
+        }
+        if (event.getStart() != null) {
+            this.start = event.getStart();
+        }
+        if (event.getEnd() != null) {
+            this.end = event.getEnd();
+        }
+    }
+
+    public void setEnd(LocalDate end) {
+        this.end = end;
+    }
 }
